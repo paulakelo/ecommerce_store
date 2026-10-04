@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .forms import AccountDetailsForm, CheckoutForm, RegistrationForm
-from .models import Category, Order, OrderItem, Product, WishlistItem
+from .models import Category, CustomerProfile, Order, OrderItem, Product, WishlistItem
 from .shipping import COUNTY_SHIPPING_RATES, shipping_cost_for_county
 from .services.mpesa import MpesaError, initiate_stk_push
 
@@ -151,7 +151,31 @@ def cart(request):
 			return _complete_checkout(request, items, subtotal, form)
 		return redirect("cart")
 	items, subtotal = _cart_summary(request)
-	form = CheckoutForm()
+	initial = {}
+	if request.user.is_authenticated:
+		if request.user.first_name:
+			initial["first_name"] = request.user.first_name
+		if request.user.last_name:
+			initial["last_name"] = request.user.last_name
+		profile = CustomerProfile.objects.filter(user=request.user).first()
+		if profile:
+			if profile.shipping_county:
+				initial["county"] = profile.shipping_county
+			if profile.shipping_details:
+				initial["delivery_details"] = profile.shipping_details
+		if not initial.get("county") or not initial.get("delivery_details"):
+			latest_order = request.user.orders.order_by("-created").first()
+			if latest_order:
+				for county in COUNTY_SHIPPING_RATES:
+					prefix = f"{county} County, "
+					if latest_order.delivery_location.startswith(prefix):
+						initial.setdefault("county", county)
+						initial.setdefault(
+							"delivery_details",
+							latest_order.delivery_location[len(prefix):],
+						)
+						break
+	form = CheckoutForm(initial=initial)
 	return render(
 		request,
 		"store/cart.html",
@@ -191,6 +215,11 @@ def _complete_checkout(request, items, subtotal, form):
 			},
 		)
 	with transaction.atomic():
+		if request.user.is_authenticated:
+			profile = CustomerProfile.objects.get_or_create(user=request.user)[0]
+			profile.shipping_county = form.cleaned_data["county"]
+			profile.shipping_details = form.cleaned_data["delivery_details"]
+			profile.save(update_fields=["shipping_county", "shipping_details"])
 		order = Order.objects.create(
 			user=request.user if request.user.is_authenticated else None,
 			first_name=form.cleaned_data["first_name"],
@@ -275,21 +304,42 @@ def register(request):
 
 @login_required
 def account(request):
+	profile = CustomerProfile.objects.get_or_create(user=request.user)[0]
 	initial = {}
-	if request.method == "GET" and (
-		not request.user.first_name or not request.user.last_name
-	):
+	if request.method == "GET":
 		latest_order = request.user.orders.order_by("-created").first()
-		if latest_order:
+		if latest_order and (
+			not request.user.first_name
+			or not request.user.last_name
+			or not profile.shipping_county
+			or not profile.shipping_details
+		):
 			if not request.user.first_name:
 				initial["first_name"] = latest_order.first_name
 			if not request.user.last_name:
 				initial["last_name"] = latest_order.last_name
+			if not profile.shipping_county or not profile.shipping_details:
+				for county in COUNTY_SHIPPING_RATES:
+					prefix = f"{county} County, "
+					if latest_order.delivery_location.startswith(prefix):
+						initial.setdefault("shipping_county", county)
+						initial.setdefault(
+							"shipping_details",
+							latest_order.delivery_location[len(prefix):],
+						)
+						break
+	if profile.shipping_county:
+		initial["shipping_county"] = profile.shipping_county
+	if profile.shipping_details:
+		initial["shipping_details"] = profile.shipping_details
 	form = AccountDetailsForm(
 		request.POST or None, instance=request.user, initial=initial
 	)
 	if request.method == "POST" and form.is_valid():
 		form.save()
+		profile.shipping_county = form.cleaned_data["shipping_county"]
+		profile.shipping_details = form.cleaned_data["shipping_details"]
+		profile.save(update_fields=["shipping_county", "shipping_details"])
 		messages.success(request, _("Your account details have been updated."))
 		return redirect("account")
 	orders = request.user.orders.prefetch_related("items__product").order_by("-created")

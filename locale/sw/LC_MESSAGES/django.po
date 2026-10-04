@@ -195,3 +195,30 @@ msgstr "Akaunti yako imefunguliwa."
 
 msgid "Your account details have been updated."
 msgstr "Maelezo ya akaunti yako yamesasishwa."
+
+msgid "Shipping address"
+msgstr "Anwani ya usafirishaji"
+
+msgid "County"
+msgstr "Kaunti"
+
+msgid "Select your county"
+msgstr "Chagua kaunti yako"
+
+msgid "Town, estate, street and nearest landmark"
+msgstr "Mji, eneo, mtaa na alama ya karibu"
+
+msgid "Language settings"
+msgstr "Mipangilio ya lugha"
+
+msgid "Preferred language"
+msgstr "Lugha unayopendelea"
+
+msgid "Save language"
+msgstr "Hifadhi lugha"
+
+msgid "Enter the rest of your shipping address."
+msgstr "Weka sehemu iliyobaki ya anwani yako ya usafirishaji."
+
+msgid "Choose a county for your shipping address."
+msgstr "Chagua kaunti ya anwani yako ya usafirishaji."

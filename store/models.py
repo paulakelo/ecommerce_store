@@ -48,6 +48,17 @@ class WishlistItem(models.Model):
         return f"{self.user} - {self.product}"
 
 
+class CustomerProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, related_name="customer_profile", on_delete=models.CASCADE
+    )
+    shipping_county = models.CharField(max_length=100, blank=True)
+    shipping_details = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return f"{self.user} profile"
+
+
 class Order(models.Model):
     PAYMENT_STATUS_CHOICES = [
         ("pending", "Pending"),

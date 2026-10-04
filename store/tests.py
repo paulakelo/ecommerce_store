@@ -7,7 +7,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from .forms import CheckoutForm
-from .models import Category, Order, Product, WishlistItem
+from .models import Category, CustomerProfile, Order, Product, WishlistItem
 from .shipping import shipping_cost_for_county
 
 
@@ -64,6 +64,28 @@ class StorefrontWorkflowTests(TestCase):
 			"delivery_details",
 		):
 			self.assertRegex(html, rf'name="{field_name}"[^>]*required')
+
+	def test_checkout_prefills_saved_account_details_and_shipping_address(self):
+		user = get_user_model().objects.create_user(
+			username="saved-address-customer",
+			first_name="Ada",
+			last_name="Njeri",
+		)
+		CustomerProfile.objects.create(
+			user=user,
+			shipping_county="Nairobi",
+			shipping_details="Kilimani",
+		)
+		self.client.force_login(user)
+		self.set_cart()
+
+		response = self.client.get(reverse("cart"))
+
+		form = response.context["form"]
+		self.assertEqual(form["first_name"].value(), "Ada")
+		self.assertEqual(form["last_name"].value(), "Njeri")
+		self.assertEqual(form["county"].value(), "Nairobi")
+		self.assertEqual(form["delivery_details"].value(), "Kilimani")
 
 	def test_help_centre_provides_checkout_answers(self):
 		response = self.client.get(reverse("help"))
@@ -327,7 +349,7 @@ class StorefrontWorkflowTests(TestCase):
 			with self.subTest(route=route_name):
 				response = self.client.get(reverse(route_name))
 				self.assertEqual(response.status_code, 200)
-				self.assertContains(response, "EldoMarket")
+				self.assertContains(response, "Sokohewani")
 				self.assertNotContains(response, "123 Street New York")
 				self.assertNotContains(response, "+0123 456 7890")
 				self.assertNotContains(response, ">Single Page</a>")
@@ -341,7 +363,7 @@ class StorefrontWorkflowTests(TestCase):
 		user = get_user_model().objects.create_user(username="base-layout-customer")
 		self.client.force_login(user)
 		response = self.client.get(reverse("account"))
-		self.assertContains(response, "EldoMarket")
+		self.assertContains(response, "Sokohewani")
 		self.assertNotContains(response, "Electro - Electronics Website Template")
 		self.assertNotContains(response, "123 Street New York")
 
@@ -455,6 +477,9 @@ class StorefrontWorkflowTests(TestCase):
 				},
 			)
 		self.assertEqual(Order.objects.get().user, user)
+		profile = CustomerProfile.objects.get(user=user)
+		self.assertEqual(profile.shipping_county, "Nairobi")
+		self.assertEqual(profile.shipping_details, "Kilimani")
 
 	def test_successful_callback_marks_order_paid_once(self):
 		order = Order.objects.create(
@@ -590,6 +615,8 @@ class AccountDashboardTests(TestCase):
 		response = self.client.get(reverse("account"))
 		self.assertContains(response, 'lang="sw"')
 		self.assertContains(response, "Akaunti Yangu")
+		self.assertContains(response, "account-language")
+		self.assertContains(response, 'option value="sw" selected')
 
 	def test_registration_logs_in_and_opens_dashboard(self):
 		response = self.client.post(
@@ -673,6 +700,25 @@ class AccountDashboardTests(TestCase):
 		self.user.refresh_from_db()
 		self.assertEqual(self.user.first_name, "Amina")
 
+	def test_account_settings_save_shipping_address(self):
+		self.client.force_login(self.user)
+
+		response = self.client.post(
+			reverse("account"),
+			{
+				"first_name": "Amina",
+				"last_name": "Wanjiku",
+				"email": "amina@example.com",
+				"shipping_county": "Nairobi",
+				"shipping_details": "Kilimani",
+			},
+		)
+
+		self.assertRedirects(response, reverse("account"), fetch_redirect_response=False)
+		profile = CustomerProfile.objects.get(user=self.user)
+		self.assertEqual(profile.shipping_county, "Nairobi")
+		self.assertEqual(profile.shipping_details, "Kilimani")
+
 	def test_account_details_require_names_and_a_valid_email(self):
 		self.client.force_login(self.user)
 
@@ -691,7 +737,7 @@ class AccountDashboardTests(TestCase):
 			first_name="Amina",
 			last_name="Wanjiku",
 			phone_number="254712345678",
-			delivery_location="Nairobi",
+			delivery_location="Nairobi County, Kilimani",
 			total_cost="500.00",
 		)
 		self.user.first_name = "Saved"
@@ -704,6 +750,8 @@ class AccountDashboardTests(TestCase):
 		self.assertEqual(form["first_name"].value(), "Saved")
 		self.assertEqual(form["last_name"].value(), "Wanjiku")
 		self.assertEqual(form["email"].value(), "")
+		self.assertEqual(form["shipping_county"].value(), "Nairobi")
+		self.assertEqual(form["shipping_details"].value(), "Kilimani")
 
 	def test_wishlist_add_remove_and_account_listing_are_user_specific(self):
 		category = Category.objects.create(name="Wishlist Category", slug="wishlist")

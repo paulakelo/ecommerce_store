@@ -71,14 +71,36 @@ class AccountDetailsForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["shipping_county"] = forms.ChoiceField(
+            label=_("County"),
+            required=False,
+            choices=[("", _("Select your county"))]
+            + [(county, _(f"{county} County")) for county in COUNTY_SHIPPING_RATES],
+            widget=forms.Select(attrs={"class": "form-select"}),
+        )
+        self.fields["shipping_details"] = forms.CharField(
+            label=_("Town, estate, street and nearest landmark"),
+            max_length=200,
+            required=False,
+            widget=forms.TextInput(attrs={"class": "form-control"}),
+        )
         autocomplete = {
             "first_name": "given-name",
             "last_name": "family-name",
             "email": "email",
         }
         for field_name, field in self.fields.items():
-            field.widget.attrs["class"] = "form-control"
-            field.widget.attrs["autocomplete"] = autocomplete[field_name]
+            if field_name in autocomplete:
+                field.widget.attrs["class"] = "form-control"
+                field.widget.attrs["autocomplete"] = autocomplete[field_name]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get("shipping_county") and not cleaned_data.get("shipping_details"):
+            self.add_error("shipping_details", _("Enter the rest of your shipping address."))
+        if cleaned_data.get("shipping_details") and not cleaned_data.get("shipping_county"):
+            self.add_error("shipping_county", _("Choose a county for your shipping address."))
+        return cleaned_data
 
 
 class CheckoutForm(forms.Form):

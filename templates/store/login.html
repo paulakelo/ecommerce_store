@@ -1,7 +1,7 @@
 {% extends "store/base.html" %}
 {% load i18n %}
 
-{% block title %}{% translate "Login" %} | EldoMarket{% endblock %}
+{% block title %}{% translate "Login" %} | Sokohewani{% endblock %}
 {% block content %}
     <main class="container py-5" style="max-width: 540px;">
         <h1 class="h2 mt-4">{% translate "Login" %}</h1>
@@ -18,6 +18,6 @@
             {% endfor %}
             <button type="submit" class="btn btn-primary w-100">{% translate "Login" %}</button>
         </form>
-        <p class="mt-4">{% translate "New to EldoMarket?" %} <a href="{% url 'register' %}">{% translate "Create Account" %}</a></p>
+        <p class="mt-4">{% translate "New to Sokohewani?" %} <a href="{% url 'register' %}">{% translate "Create Account" %}</a></p>
     </main>
 {% endblock content %}
