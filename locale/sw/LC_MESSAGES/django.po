@@ -13,6 +13,27 @@ msgstr ""
 msgid "Home"
 msgstr "Nyumbani"
 
+msgid "Language"
+msgstr "Lugha"
+
+msgid "Search"
+msgstr "Tafuta"
+
+msgid "Search for laptops, phones..."
+msgstr "Tafuta kompyuta, simu..."
+
+msgid "Browse categories"
+msgstr "Vinjari aina za bidhaa"
+
+msgid "Categories"
+msgstr "Aina za bidhaa"
+
+msgid "Shop by category"
+msgstr "Nunua kulingana na aina"
+
+msgid "Cart"
+msgstr "Kikapu"
+
 msgid "Shop"
 msgstr "Duka"
 

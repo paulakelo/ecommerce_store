@@ -35,7 +35,7 @@
             <div class="col-12 col-lg-7 order-3 order-lg-2">
                 <form action="{% url 'home' %}" method="get" class="d-flex border rounded-pill">
                     <input class="form-control border-0 rounded-pill w-100 py-2 py-lg-3" type="search" name="q"
-                        placeholder="Search for laptops, phones..." value="{{ query|default_if_none:'' }}">
+                        placeholder="{% translate 'Search for laptops, phones...' %}" value="{{ query|default_if_none:'' }}">
                     <button type="submit" class="btn btn-primary rounded-pill px-4" style="border: 0;"
                         aria-label="{% translate 'Search' %}">
                         <i class="fas fa-search"></i>
@@ -44,15 +44,28 @@
             </div>
             <div class="col-5 col-lg-3 order-2 order-lg-3 d-flex align-items-center justify-content-end">
                 <div class="dropdown">
-                    <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown">
+                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle language-switch-toggle mx-2"
+                        data-bs-toggle="dropdown" aria-label="{% translate 'Language' %}: {% if current_language == 'sw' %}Kiswahili{% else %}English{% endif %}"
+                        aria-haspopup="true">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
                         <small>{% if current_language == "sw" %}Kiswahili{% else %}English{% endif %}</small>
-                    </a>
+                    </button>
                     <div class="dropdown-menu dropdown-menu-end rounded">
                         <form action="{% url 'set_language' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                            <button type="submit" name="language" value="en" class="dropdown-item">English</button>
-                            <button type="submit" name="language" value="sw" class="dropdown-item">Kiswahili</button>
+                            <button type="submit" name="language" value="en"
+                                class="dropdown-item d-flex align-items-center justify-content-between{% if current_language == 'en' %} active{% endif %}"
+                                {% if current_language == 'en' %}aria-current="true"{% endif %}>
+                                English
+                                {% if current_language == 'en' %}<i class="fas fa-check ms-3" aria-hidden="true"></i>{% endif %}
+                            </button>
+                            <button type="submit" name="language" value="sw"
+                                class="dropdown-item d-flex align-items-center justify-content-between{% if current_language == 'sw' %} active{% endif %}"
+                                {% if current_language == 'sw' %}aria-current="true"{% endif %}>
+                                Kiswahili
+                                {% if current_language == 'sw' %}<i class="fas fa-check ms-3" aria-hidden="true"></i>{% endif %}
+                            </button>
                         </form>
                     </div>
                 </div>

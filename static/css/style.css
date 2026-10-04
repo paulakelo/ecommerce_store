@@ -1526,6 +1526,15 @@ header .navbar-brand h1 {
     white-space: nowrap;
 }
 
+.language-switch-toggle {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    gap: .4rem;
+    border-radius: 50rem;
+    white-space: nowrap;
+}
+
 header form input[type="search"] {
     min-width: 0;
 }

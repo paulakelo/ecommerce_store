@@ -590,6 +590,18 @@ class StorefrontWorkflowTests(TestCase):
 		response = self.client.get(reverse("cart"))
 		self.assertContains(response, 'lang="sw"')
 		self.assertContains(response, "Kikapu chako hakina bidhaa.")
+		self.assertContains(response, 'aria-label="Lugha: Kiswahili"')
+		self.assertContains(response, 'placeholder="Tafuta kompyuta, simu..."')
+		self.assertContains(response, 'aria-current="true"')
+
+		response = self.client.post(
+			reverse("set_language"), {"language": "en", "next": reverse("home")}
+		)
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(self.client.cookies["django_language"].value, "en")
+		response = self.client.get(reverse("home"))
+		self.assertContains(response, 'lang="en"')
+		self.assertContains(response, 'aria-label="Language: English"')
 
 
 class CheckoutFormTests(TestCase):
