@@ -147,3 +147,17 @@ class CheckoutForm(forms.Form):
                 _("Enter a Kenyan M-Pesa number, such as 0712345678 or 254712345678.")
             )
         return phone
+
+
+class CustomerMessageForm(forms.Form):
+    body = forms.CharField(
+        label=_("Message"),
+        max_length=4000,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "rows": 3,
+                "maxlength": 4000,
+            }
+        ),
+    )

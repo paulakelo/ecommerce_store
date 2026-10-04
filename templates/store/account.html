@@ -63,6 +63,39 @@
                 {% endif %}
             </section>
         </div>
+        <section class="mt-5" id="messages" aria-labelledby="messages-title">
+            <h2 class="h4 mb-3" id="messages-title">{% translate "Messages" %}</h2>
+            <p class="text-muted">{% translate "Chat with customer support and receive account, order, and promotion updates here." %}</p>
+            <div class="d-grid gap-3 mb-4">
+                {% for message in inbox_messages %}
+                <article class="border rounded p-3{% if message.sender_id == request.user.pk %} ms-md-5{% else %} me-md-5{% endif %}">
+                    <div class="d-flex justify-content-between gap-3 flex-wrap">
+                        <strong>{{ message.title }}</strong>
+                        <small class="text-muted">
+                            {% if message.kind == "chat" %}
+                                {% if message.sender_id == request.user.pk %}{% translate "You" %}{% else %}{% translate "Customer support" %}{% endif %}
+                            {% elif message.kind == "order" %}{% translate "Order update" %}
+                            {% elif message.kind == "promotion" %}{% translate "Promotion" %}
+                            {% else %}{% translate "System message" %}{% endif %}
+                            · {{ message.created|date:"SHORT_DATETIME_FORMAT" }}
+                        </small>
+                    </div>
+                    <p class="mb-0 mt-2">{{ message.body|linebreaksbr }}</p>
+                    {% if message.order_id %}<small class="text-muted">{% translate "Order" %} #{{ message.order_id }}</small>{% endif %}
+                </article>
+                {% empty %}
+                <p class="text-muted">{% translate "No messages yet." %}</p>
+                {% endfor %}
+            </div>
+            <form method="post" action="{% url 'account' %}#messages" class="border rounded p-3">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="send_message">
+                <label class="form-label" for="{{ chat_form.body.id_for_label }}">{% translate "Send a message to customer support" %}</label>
+                {{ chat_form.body }}
+                {% for error in chat_form.body.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+                <button type="submit" class="btn btn-primary mt-3">{% translate "Send message" %}</button>
+            </form>
+        </section>
         <section class="mt-5" id="wishlist">
             <h2 class="h4 mb-3">{% translate "Wishlist" %}</h2>
             {% if wishlist_items %}

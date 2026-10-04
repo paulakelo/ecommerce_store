@@ -222,3 +222,57 @@ msgstr "Weka sehemu iliyobaki ya anwani yako ya usafirishaji."
 
 msgid "Choose a county for your shipping address."
 msgstr "Chagua kaunti ya anwani yako ya usafirishaji."
+
+msgid "Messages"
+msgstr "Ujumbe"
+
+msgid "Chat with customer support and receive account, order, and promotion updates here."
+msgstr "Piga gumzo na huduma kwa wateja na upokee masasisho ya akaunti, maagizo na matangazo hapa."
+
+msgid "You"
+msgstr "Wewe"
+
+msgid "Customer support"
+msgstr "Huduma kwa wateja"
+
+msgid "Order update"
+msgstr "Taarifa ya agizo"
+
+msgid "Promotion"
+msgstr "Tangazo"
+
+msgid "System message"
+msgstr "Ujumbe wa mfumo"
+
+msgid "No messages yet."
+msgstr "Bado hakuna ujumbe."
+
+msgid "Send a message to customer support"
+msgstr "Tuma ujumbe kwa huduma kwa wateja"
+
+msgid "Send message"
+msgstr "Tuma ujumbe"
+
+msgid "Message"
+msgstr "Ujumbe"
+
+msgid "Your message has been sent to customer support."
+msgstr "Ujumbe wako umetumwa kwa huduma kwa wateja."
+
+msgid "We could not start payment for your order. Please contact support for help."
+msgstr "Hatukuweza kuanzisha malipo ya agizo lako. Tafadhali wasiliana na huduma kwa wateja upate msaada."
+
+msgid "Your order is awaiting M-Pesa payment confirmation."
+msgstr "Agizo lako linasubiri uthibitisho wa malipo ya M-Pesa."
+
+msgid "Payment received. Your order is confirmed."
+msgstr "Malipo yamepokelewa. Agizo lako limethibitishwa."
+
+msgid "M-Pesa payment for your order was not completed."
+msgstr "Malipo ya M-Pesa ya agizo lako hayakukamilika."
+
+msgid "Welcome to Sokohewani"
+msgstr "Karibu Sokohewani"
+
+msgid "Your account is ready. Contact support here and check back for order updates and promotions."
+msgstr "Akaunti yako iko tayari. Wasiliana na huduma kwa wateja hapa na urudi kupata masasisho ya maagizo na matangazo."

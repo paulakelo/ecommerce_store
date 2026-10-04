@@ -18,6 +18,10 @@ This is suitable for a low-cost demo, not a production store: Render free web se
 
 The English and Kiswahili selector uses Django's language cookie and the translation catalog in `locale/sw/LC_MESSAGES/django.po`. After changing translations, run `python manage.py compilemessages` (GNU gettext is required).
 
+## Customer messages
+
+Customers can contact support and view welcome, order-status, and promotion messages in the Messages section of their account. Staff can reply by adding a `Customer message` in Django admin, selecting the customer as the recipient and `Chat` as the message type. To send a promotion, create a `Promotion campaign` and use the admin action to send it to active customer accounts; sent campaigns cannot be broadcast twice. Messages are stored in the site's database and do not require a paid messaging provider.
+
 ## Checks
 
 Run the focused application tests with `python manage.py test`.

@@ -59,6 +59,56 @@ class CustomerProfile(models.Model):
         return f"{self.user} profile"
 
 
+class CustomerMessage(models.Model):
+    class Kind(models.TextChoices):
+        CHAT = "chat", "Chat"
+        SYSTEM = "system", "System"
+        ORDER = "order", "Order update"
+        PROMOTION = "promotion", "Promotion"
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="inbox_messages", on_delete=models.CASCADE
+    )
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="sent_customer_messages",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    order = models.ForeignKey(
+        "Order",
+        related_name="inbox_messages",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    kind = models.CharField(max_length=12, choices=Kind.choices)
+    title = models.CharField(max_length=160)
+    body = models.TextField(max_length=4000)
+    created = models.DateTimeField(auto_now_add=True)
+    read_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ("created", "pk")
+
+    def __str__(self):
+        return f"{self.get_kind_display()} for {self.user}"
+
+
+class PromotionCampaign(models.Model):
+    title = models.CharField(max_length=160)
+    body = models.TextField(max_length=4000)
+    created = models.DateTimeField(auto_now_add=True)
+    sent_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ("-created",)
+
+    def __str__(self):
+        return self.title
+
+
 class Order(models.Model):
     PAYMENT_STATUS_CHOICES = [
         ("pending", "Pending"),

@@ -11,18 +11,43 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .forms import AccountDetailsForm, CheckoutForm, RegistrationForm
-from .models import Category, CustomerProfile, Order, OrderItem, Product, WishlistItem
+from .forms import (
+	AccountDetailsForm,
+	CheckoutForm,
+	CustomerMessageForm,
+	RegistrationForm,
+)
+from .models import (
+	Category,
+	CustomerMessage,
+	CustomerProfile,
+	Order,
+	OrderItem,
+	Product,
+	WishlistItem,
+)
 from .shipping import COUNTY_SHIPPING_RATES, shipping_cost_for_county
 from .services.mpesa import MpesaError, initiate_stk_push
 
 logger = logging.getLogger(__name__)
 CART_SESSION_KEY = "cart"
+
+
+def _notify_order_update(order, body):
+	if order.user_id:
+		CustomerMessage.objects.create(
+			user=order.user,
+			order=order,
+			kind=CustomerMessage.Kind.ORDER,
+			title=_("Order update"),
+			body=body,
+		)
 
 
 def _wishlisted_product_ids(user, products):
@@ -245,6 +270,10 @@ def _complete_checkout(request, items, subtotal, form):
 		)
 	except MpesaError:
 		logger.exception("M-Pesa STK Push failed for order %s", order.pk)
+		_notify_order_update(
+			order,
+			_("We could not start payment for your order. Please contact support for help."),
+		)
 		messages.error(
 			request,
 			_("We could not start the M-Pesa payment. Your order %(order_id)s was saved; please try again or contact support.")
@@ -255,6 +284,10 @@ def _complete_checkout(request, items, subtotal, form):
 		order.merchant_request_id = response.get("MerchantRequestID", "")
 		order.payment_status = "processing"
 		order.save(update_fields=["checkout_request_id", "merchant_request_id", "payment_status"])
+		_notify_order_update(
+			order,
+			_("Your order is awaiting M-Pesa payment confirmation."),
+		)
 		request.session.pop(CART_SESSION_KEY, None)
 		messages.success(request, _("Payment request sent. Enter your M-Pesa PIN on your phone to complete order %(order_id)s.") % {"order_id": order.pk})
 	return redirect("cart")
@@ -296,6 +329,12 @@ def register(request):
 	form = RegistrationForm(request.POST or None)
 	if request.method == "POST" and form.is_valid():
 		user = form.save()
+		CustomerMessage.objects.create(
+			user=user,
+			kind=CustomerMessage.Kind.SYSTEM,
+			title=_("Welcome to Sokohewani"),
+			body=_("Your account is ready. Contact support here and check back for order updates and promotions."),
+		)
 		login(request, user)
 		messages.success(request, _("Your account has been created."))
 		return redirect("account")
@@ -305,6 +344,20 @@ def register(request):
 @login_required
 def account(request):
 	profile = CustomerProfile.objects.get_or_create(user=request.user)[0]
+	chat_form = CustomerMessageForm()
+	if request.method == "POST" and request.POST.get("action") == "send_message":
+		chat_form = CustomerMessageForm(request.POST)
+		if chat_form.is_valid():
+			CustomerMessage.objects.create(
+				user=request.user,
+				sender=request.user,
+				kind=CustomerMessage.Kind.CHAT,
+				title=_("Customer support"),
+				body=chat_form.cleaned_data["body"],
+			)
+			messages.success(request, _("Your message has been sent to customer support."))
+			return redirect(f"{reverse('account')}#messages")
+
 	initial = {}
 	if request.method == "GET":
 		latest_order = request.user.orders.order_by("-created").first()
@@ -333,15 +386,24 @@ def account(request):
 	if profile.shipping_details:
 		initial["shipping_details"] = profile.shipping_details
 	form = AccountDetailsForm(
-		request.POST or None, instance=request.user, initial=initial
+		request.POST
+		if request.method == "POST" and request.POST.get("action") != "send_message"
+		else None,
+		instance=request.user,
+		initial=initial,
 	)
-	if request.method == "POST" and form.is_valid():
+	if request.method == "POST" and request.POST.get("action") != "send_message" and form.is_valid():
 		form.save()
 		profile.shipping_county = form.cleaned_data["shipping_county"]
 		profile.shipping_details = form.cleaned_data["shipping_details"]
 		profile.save(update_fields=["shipping_county", "shipping_details"])
 		messages.success(request, _("Your account details have been updated."))
 		return redirect("account")
+	inbox = request.user.inbox_messages.select_related("sender", "order")
+	if request.method == "GET":
+		inbox.filter(read_at__isnull=True).exclude(sender=request.user).update(
+			read_at=timezone.now()
+		)
 	orders = request.user.orders.prefetch_related("items__product").order_by("-created")
 	wishlist_items = request.user.wishlist_items.select_related(
 		"product", "product__category"
@@ -349,7 +411,13 @@ def account(request):
 	return render(
 		request,
 		"store/account.html",
-		{"form": form, "orders": orders, "wishlist_items": wishlist_items},
+		{
+			"form": form,
+			"chat_form": chat_form,
+			"inbox_messages": inbox,
+			"orders": orders,
+			"wishlist_items": wishlist_items,
+		},
 	)
 
 
@@ -392,6 +460,7 @@ def mpesa_callback(request):
 	with transaction.atomic():
 		order = Order.objects.select_for_update().filter(checkout_request_id=checkout_id).first()
 		if order and not order.is_paid:
+			previous_status = order.payment_status
 			if result_code == 0:
 				metadata = callback.get("CallbackMetadata", {}).get("Item", [])
 				values = {item.get("Name"): item.get("Value") for item in metadata}
@@ -408,6 +477,15 @@ def mpesa_callback(request):
 				order.mpesa_receipt_number = str(values["MpesaReceiptNumber"])
 			else:
 				order.payment_status = "failed"
+			if previous_status != order.payment_status:
+				if order.payment_status == "paid":
+					body = _("Payment received. Your order is confirmed.")
+				else:
+					body = _("M-Pesa payment for your order was not completed.")
+				_notify_order_update(
+					order,
+					body,
+				)
 			order.save(update_fields=["is_paid", "payment_status", "mpesa_receipt_number"])
 	return JsonResponse({"ResultCode": 0, "ResultDesc": "Accepted"})
 

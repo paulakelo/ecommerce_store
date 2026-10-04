@@ -1,13 +1,24 @@
 import json
 from decimal import Decimal
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
+from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
+from django.test import RequestFactory
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from .forms import CheckoutForm
-from .models import Category, CustomerProfile, Order, Product, WishlistItem
+from .admin import CustomerMessageAdmin, PromotionCampaignAdmin
+from .forms import CheckoutForm, CustomerMessageForm
+from .models import (
+	Category,
+	CustomerMessage,
+	CustomerProfile,
+	Order,
+	Product,
+	PromotionCampaign,
+	WishlistItem,
+)
 from .shipping import shipping_cost_for_county
 
 
@@ -480,6 +491,50 @@ class StorefrontWorkflowTests(TestCase):
 		profile = CustomerProfile.objects.get(user=user)
 		self.assertEqual(profile.shipping_county, "Nairobi")
 		self.assertEqual(profile.shipping_details, "Kilimani")
+		self.assertEqual(
+			CustomerMessage.objects.filter(
+				user=user, kind=CustomerMessage.Kind.ORDER
+			).count(),
+			1,
+		)
+
+	def test_checkout_payment_callback_creates_order_update_for_customer(self):
+		user = get_user_model().objects.create_user(username="order-update-customer")
+		order = Order.objects.create(
+			user=user,
+			first_name="Ada",
+			last_name="Njeri",
+			phone_number="254712345678",
+			delivery_location="Nairobi County, Kilimani",
+			total_cost="125.00",
+			payment_status="processing",
+			checkout_request_id="ws_CO_customer_update",
+		)
+		callback = {
+			"Body": {
+				"stkCallback": {
+					"CheckoutRequestID": order.checkout_request_id,
+					"ResultCode": 0,
+					"CallbackMetadata": {
+						"Item": [
+							{"Name": "Amount", "Value": 125},
+							{"Name": "MpesaReceiptNumber", "Value": "QAB123XYZ"},
+							{"Name": "PhoneNumber", "Value": 254712345678},
+						]
+					},
+				}
+			}
+		}
+
+		self.client.post(
+			reverse("mpesa_callback"),
+			data=json.dumps(callback),
+			content_type="application/json",
+		)
+
+		message = CustomerMessage.objects.get(user=user, order=order)
+		self.assertEqual(message.kind, CustomerMessage.Kind.ORDER)
+		self.assertEqual(message.body, "Payment received. Your order is confirmed.")
 
 	def test_successful_callback_marks_order_paid_once(self):
 		order = Order.objects.create(
@@ -543,6 +598,11 @@ class CheckoutFormTests(TestCase):
 
 		self.assertTrue(all(field.required for field in form.fields.values()))
 		self.assertFalse(form.is_valid())
+
+	def test_customer_message_form_rejects_blank_or_overlong_messages(self):
+		self.assertFalse(CustomerMessageForm(data={"body": "  "}).is_valid())
+		self.assertFalse(CustomerMessageForm(data={"body": "x" * 4001}).is_valid())
+		self.assertTrue(CustomerMessageForm(data={"body": "Please help"}).is_valid())
 
 	def test_accepts_local_and_international_kenyan_phone_formats(self):
 		for phone, normalized in (
@@ -609,6 +669,7 @@ class AccountDashboardTests(TestCase):
 		response = self.client.get(reverse("home"))
 		self.assertContains(response, reverse("account"))
 		self.assertContains(response, reverse("logout"))
+		self.assertContains(response, f"{reverse('account')}#messages")
 		self.client.post(
 			reverse("set_language"), {"language": "sw", "next": reverse("account")}
 		)
@@ -638,6 +699,11 @@ class AccountDashboardTests(TestCase):
 		self.assertEqual(registered_user.email, "new-customer@example.com")
 		self.assertFalse(registered_user.is_staff)
 		self.assertFalse(registered_user.is_superuser)
+		self.assertTrue(
+			CustomerMessage.objects.filter(
+				user=registered_user, kind=CustomerMessage.Kind.SYSTEM
+			).exists()
+		)
 		self.assertContains(self.client.get(reverse("home")), reverse("logout"))
 
 	def test_registration_requires_names_and_a_valid_email(self):
@@ -730,6 +796,95 @@ class AccountDashboardTests(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "This field is required")
 		self.assertContains(response, "Enter a valid email address")
+
+	def test_customer_can_message_support_and_see_inbox(self):
+		self.client.force_login(self.user)
+
+		response = self.client.post(
+			reverse("account"),
+			{"action": "send_message", "body": "Please help with my delivery."},
+		)
+
+		self.assertRedirects(
+			response, f"{reverse('account')}#messages", fetch_redirect_response=False
+		)
+		message = CustomerMessage.objects.get(user=self.user)
+		self.assertEqual(message.sender, self.user)
+		self.assertEqual(message.kind, CustomerMessage.Kind.CHAT)
+		self.assertContains(
+			self.client.get(reverse("account")),
+			"Please help with my delivery.",
+		)
+		other_customer = self.user_model.objects.create_user(
+			username="private-inbox-customer"
+		)
+		CustomerMessage.objects.create(
+			user=other_customer,
+			kind=CustomerMessage.Kind.SYSTEM,
+			title="Private",
+			body="This belongs to another customer.",
+		)
+		self.assertNotContains(
+			self.client.get(reverse("account")), "This belongs to another customer."
+		)
+
+	def test_promotion_campaign_broadcasts_once_to_active_customers(self):
+		customer = self.user_model.objects.create_user(username="promotion-customer")
+		staff_user = self.user_model.objects.create_user(
+			username="promotion-staff", is_staff=True, is_active=True
+		)
+		campaign = PromotionCampaign.objects.create(
+			title="Weekend offer", body="Save 10% this weekend."
+		)
+		request = RequestFactory().post("/admin/store/promotioncampaign/")
+		request.user = self.user
+		request._messages = MagicMock()
+		model_admin = PromotionCampaignAdmin(PromotionCampaign, AdminSite())
+
+		model_admin.send_to_customers(
+			request, PromotionCampaign.objects.filter(pk=campaign.pk)
+		)
+		model_admin.send_to_customers(
+			request, PromotionCampaign.objects.filter(pk=campaign.pk)
+		)
+
+		self.assertEqual(
+			CustomerMessage.objects.filter(
+				user=customer, kind=CustomerMessage.Kind.PROMOTION
+			).count(),
+			1,
+		)
+		self.assertEqual(
+			CustomerMessage.objects.filter(
+				user=self.user, kind=CustomerMessage.Kind.PROMOTION
+			).count(),
+			1,
+		)
+		self.assertFalse(
+			CustomerMessage.objects.filter(
+				user=staff_user, kind=CustomerMessage.Kind.PROMOTION
+			).exists()
+		)
+
+	def test_staff_can_reply_to_customer_inbox_from_admin(self):
+		staff_user = self.user_model.objects.create_user(
+			username="support-agent", is_staff=True, is_active=True
+		)
+		message = CustomerMessage(
+			user=self.user,
+			kind=CustomerMessage.Kind.CHAT,
+			title="Customer support",
+			body="We can help with that.",
+		)
+		request = RequestFactory().post("/admin/store/customermessage/add/")
+		request.user = staff_user
+		model_admin = CustomerMessageAdmin(CustomerMessage, AdminSite())
+
+		model_admin.save_model(request, message, form=None, change=False)
+
+		self.assertEqual(message.sender, staff_user)
+		self.client.force_login(self.user)
+		self.assertContains(self.client.get(reverse("account")), "We can help with that.")
 
 	def test_account_settings_prefill_missing_names_from_latest_order(self):
 		Order.objects.create(
