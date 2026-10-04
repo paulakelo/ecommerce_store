@@ -55,6 +55,13 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertContains(response, 'value="Mombasa" data-shipping="900"')
 		self.assertContains(response, "/static/js/checkout.js")
 
+	def test_help_centre_provides_checkout_answers(self):
+		response = self.client.get(reverse("help"))
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "Frequently asked questions")
+		self.assertContains(response, "How do M-Pesa payments work?")
+
 	def test_homepage_featured_product_uses_cart_endpoint(self):
 		response = self.client.get(reverse("home"))
 		self.assertEqual(response.context["featured_product"], self.product)

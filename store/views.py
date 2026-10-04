@@ -257,6 +257,10 @@ def checkout(request):
 	return redirect("cart")
 
 
+def help_center(request):
+	return render(request, "store/help.html")
+
+
 def register(request):
 	if request.user.is_authenticated:
 		return redirect("account")

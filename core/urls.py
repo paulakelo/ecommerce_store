@@ -11,6 +11,7 @@ from store.views import (
 	cart,
 	category_products,
 	checkout,
+	help_center,
 	home,
 	mpesa_callback,
 	product_detail,
@@ -26,6 +27,7 @@ urlpatterns = [
 	path("cart/", cart, name="cart"),
 	path("cart/add/", add_to_cart, name="add_to_cart"),
 	path("checkout/", checkout, name="checkout"),
+	path("help/", help_center, name="help"),
 	path("payments/mpesa/callback/", mpesa_callback, name="mpesa_callback"),
 	path("accounts/login/", LoginView.as_view(
 		template_name="store/login.html", authentication_form=StoreAuthenticationForm,

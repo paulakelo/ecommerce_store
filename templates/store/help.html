@@ -1,0 +1,70 @@
+{% extends "store/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Help Centre" %} | EldoMarket{% endblock %}
+{% block content %}
+<main class="help-page">
+    <div class="container py-5">
+        <header class="help-heading">
+            <p class="help-kicker">{% translate "HOW CAN WE HELP?" %}</p>
+            <h1>{% translate "Help Centre" %}</h1>
+            <p class="text-muted mb-0">{% translate "Answers to the questions customers ask most often." %}</p>
+        </header>
+
+        <section class="help-section" id="faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">{% translate "Frequently asked questions" %}</h2>
+            <div class="accordion help-accordion" id="help-questions">
+                <article class="accordion-item">
+                    <h3 class="accordion-header" id="question-order">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#answer-order" aria-expanded="true" aria-controls="answer-order">
+                            {% translate "How do I place an order?" %}
+                        </button>
+                    </h3>
+                    <div id="answer-order" class="accordion-collapse collapse show" aria-labelledby="question-order" data-bs-parent="#help-questions">
+                        <div class="accordion-body">{% translate "Choose a product, add it to your cart, confirm your delivery details, then complete the M-Pesa prompt on your phone." %}</div>
+                    </div>
+                </article>
+                <article class="accordion-item" id="delivery">
+                    <h3 class="accordion-header" id="question-delivery">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer-delivery" aria-expanded="false" aria-controls="answer-delivery">
+                            {% translate "How are delivery fees calculated?" %}
+                        </button>
+                    </h3>
+                    <div id="answer-delivery" class="accordion-collapse collapse" aria-labelledby="question-delivery" data-bs-parent="#help-questions">
+                        <div class="accordion-body">{% translate "Choose your county during checkout to see the delivery fee. It is charged once for the full order." %}</div>
+                    </div>
+                </article>
+                <article class="accordion-item" id="mpesa">
+                    <h3 class="accordion-header" id="question-payment">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer-payment" aria-expanded="false" aria-controls="answer-payment">
+                            {% translate "How do M-Pesa payments work?" %}
+                        </button>
+                    </h3>
+                    <div id="answer-payment" class="accordion-collapse collapse" aria-labelledby="question-payment" data-bs-parent="#help-questions">
+                        <div class="accordion-body">{% translate "After you place your order, we send an M-Pesa prompt to the phone number you provided. Enter your PIN to complete payment." %}</div>
+                    </div>
+                </article>
+                <article class="accordion-item">
+                    <h3 class="accordion-header" id="question-cart">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#answer-cart" aria-expanded="false" aria-controls="answer-cart">
+                            {% translate "Can I change quantities in my cart?" %}
+                        </button>
+                    </h3>
+                    <div id="answer-cart" class="accordion-collapse collapse" aria-labelledby="question-cart" data-bs-parent="#help-questions">
+                        <div class="accordion-body">{% translate "Yes. Change the quantity in your cart and it will save automatically before checkout." %}</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="help-contact" id="contact" aria-labelledby="contact-title">
+            <div>
+                <p class="help-kicker">{% translate "STILL NEED HELP?" %}</p>
+                <h2 id="contact-title">{% translate "Contact customer care" %}</h2>
+                <p class="mb-0"><a href="mailto:gregan650@gmail.com">gregan650@gmail.com</a><br>Pioneer House, 3rd Floor, Loita Street, Nairobi, Kenya</p>
+            </div>
+            <a class="btn btn-primary" href="{% url 'shop' %}">{% translate "Continue shopping" %}</a>
+        </section>
+    </div>
+</main>
+{% endblock content %}
