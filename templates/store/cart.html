@@ -1,90 +1,175 @@
 {% extends "store/base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
-{% block title %}{% translate "Cart" %} | EldoMarket{% endblock %}
+{% block title %}{% translate "Checkout" %} | EldoMarket{% endblock %}
 {% block content %}
-    <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6">{% translate "Cart" %}</h1>
-    </div>
-    <main class="container py-5">
+<main class="checkout-page">
+    <div class="container py-4 py-lg-5">
         {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
         {% endfor %}
+
         {% if cart_items %}
+        <div class="checkout-heading mb-4 mb-lg-5">
+            <div>
+                <p class="checkout-kicker mb-2">{% translate "SAFE & SECURE CHECKOUT" %}</p>
+                <h1 class="h2 mb-1">{% translate "Complete your order" %}</h1>
+                <p class="text-muted mb-0">{% translate "Delivery available to all 47 counties in Kenya." %}</p>
+            </div>
+            <a class="btn btn-outline-secondary rounded-pill px-4" href="{% url 'home' %}">
+                <i class="fas fa-arrow-left me-2" aria-hidden="true"></i>{% translate "Continue shopping" %}
+            </a>
+        </div>
+
         <form method="post" novalidate>
             {% csrf_token %}
-            <div class="table-responsive">
-                <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th>{% translate "Product" %}</th>
-                            <th>{% translate "Price" %}</th>
-                            <th>{% translate "Quantity" %}</th>
-                            <th>{% translate "Total" %}</th>
-                            <th>{% translate "Remove" %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in cart_items %}
-                        <tr>
-                            <th scope="row">{{ item.product.name }}</th>
-                            <td>KES {{ item.product.price|floatformat:2 }}</td>
-                            <td>
-                                <input class="form-control" type="number" name="quantity_{{ item.product.pk }}"
-                                    value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" required>
-                            </td>
-                            <td>KES {{ item.line_total|floatformat:2 }}</td>
-                            <td>
-                                <button class="btn btn-md rounded-circle bg-light border" type="submit"
-                                    name="remove" value="{{ item.product.pk }}" formnovalidate
-                                    aria-label="{% translate 'Remove' %}">
-                                    <i class="fa fa-times text-danger"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                <button class="btn btn-outline-primary rounded-pill px-4 py-3" type="submit"
-                    name="action" value="update" formnovalidate>
-                    {% translate "Update cart" %}
-                </button>
-                <h4 class="mb-0">{% translate "Subtotal" %}: KES {{ subtotal|floatformat:2 }}</h4>
-            </div>
-            <section class="mt-5">
-                <h2 class="h4 mb-4">{% translate "Delivery and payment" %}</h2>
-                {% for error in form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">{{ error }}</div>
-                {% endfor %}
-                <div class="row g-4">
-                    {% for field in form %}
-                    <div class="col-md-6">
-                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field }}
-                        {% for error in field.errors %}
-                        <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-                    {% endfor %}
+            <div class="row g-4 g-xl-5 align-items-start">
+                <div class="col-lg-7">
+                    <section class="checkout-card">
+                        <div class="checkout-card-heading">
+                            <span class="checkout-step">1</span>
+                            <div>
+                                <h2 class="h5 mb-1">{% translate "Contact details" %}</h2>
+                                <p class="text-muted small mb-0">{% translate "Who should we contact about your delivery?" %}</p>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                {{ form.first_name }}
+                                {% for error in form.first_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                                {{ form.last_name }}
+                                {% for error in form.last_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+254</span>
+                                    {{ form.phone_number }}
+                                </div>
+                                <div class="form-text">{% translate "We’ll send the M-Pesa payment prompt to this number." %}</div>
+                                {% for error in form.phone_number.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="checkout-card mt-4">
+                        <div class="checkout-card-heading">
+                            <span class="checkout-step">2</span>
+                            <div>
+                                <h2 class="h5 mb-1">{% translate "Shipping address" %}</h2>
+                                <p class="text-muted small mb-0">{% translate "Choose a county to see your delivery fee." %}</p>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.county.id_for_label }}">{{ form.county.label }}</label>
+                                <select class="form-select" name="{{ form.county.html_name }}" id="{{ form.county.id_for_label }}" required>
+                                    <option value="">{% translate "Select your county" %}</option>
+                                    {% for county, fee in county_shipping_rates %}
+                                    <option value="{{ county }}" data-shipping="{{ fee|floatformat:0 }}"{% if form.county.value == county %} selected{% endif %}>
+                                        {{ county }} {% translate "County" %} · KES {{ fee|floatformat:0 }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in form.county.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.delivery_details.id_for_label }}">{{ form.delivery_details.label }}</label>
+                                {{ form.delivery_details }}
+                                <div class="form-text">{% translate "Include the town, estate or street, and a nearby landmark." %}</div>
+                                {% for error in form.delivery_details.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                            </div>
+                        </div>
+                        <div class="delivery-note mt-4">
+                            <i class="fas fa-truck me-2" aria-hidden="true"></i>
+                            {% translate "Estimated flat delivery fees vary by distance from Eldoret and are charged once per order." %}
+                        </div>
+                    </section>
                 </div>
-                <p class="text-muted mt-3">
-                    {% translate "We will send an M-Pesa payment prompt to this number." %}
-                </p>
-                <button class="btn btn-primary rounded-pill px-4 py-3" type="submit"
-                    name="action" value="checkout">
-                    {% translate "Checkout with M-Pesa" %}
-                </button>
-            </section>
+
+                <div class="col-lg-5">
+                    <aside class="checkout-card order-summary" aria-labelledby="order-summary-title"
+                        data-subtotal="{{ subtotal|floatformat:2 }}">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h2 class="h5 mb-0" id="order-summary-title">{% translate "Your order" %}</h2>
+                            <span class="text-muted small">{{ cart_items|length }} {% translate "item(s)" %}</span>
+                        </div>
+                        <div class="order-items">
+                            {% for item in cart_items %}
+                            <div class="order-item">
+                                {% if item.product.image %}
+                                <img class="order-item-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                <div class="order-item-image order-item-placeholder" aria-hidden="true">
+                                    <i class="fas fa-box-open"></i>
+                                </div>
+                                {% endif %}
+                                <div class="order-item-info">
+                                    <div class="order-item-name">{{ item.product.name }}</div>
+                                    <label class="order-quantity-label" for="quantity-{{ item.product.pk }}">{% translate "Qty" %}</label>
+                                    <input class="form-control form-control-sm order-quantity"
+                                        id="quantity-{{ item.product.pk }}" type="number"
+                                        name="quantity_{{ item.product.pk }}" value="{{ item.quantity }}"
+                                        min="1" max="{{ item.product.stock }}">
+                                </div>
+                                <strong class="order-item-price">KES {{ item.line_total|floatformat:2 }}</strong>
+                                <button class="btn btn-link text-muted remove-item p-1" type="submit"
+                                    name="remove" value="{{ item.product.pk }}" formnovalidate
+                                    aria-label="{% translate 'Remove' %} {{ item.product.name }}">
+                                    <i class="fas fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="order-totals">
+                            <div class="summary-line">
+                                <span>{% translate "Subtotal" %}</span>
+                                <span>KES {{ subtotal|floatformat:2 }}</span>
+                            </div>
+                            <div class="summary-line">
+                                <span>{% translate "Delivery" %}</span>
+                                <span id="shipping-cost-value">{% translate "Choose county" %}</span>
+                            </div>
+                            <div class="summary-line summary-total">
+                                <strong>{% translate "Total" %}</strong>
+                                <strong id="order-total-value">KES {{ subtotal|floatformat:2 }}</strong>
+                            </div>
+                        </div>
+                        <button class="btn btn-link p-0 mt-3" type="submit" name="action" value="update" formnovalidate>
+                            {% translate "Update quantities" %}
+                        </button>
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger mt-3 mb-0" role="alert">{{ error }}</div>
+                        {% endfor %}
+                        <button class="btn btn-primary checkout-submit w-100 mt-4" type="submit"
+                            name="action" value="checkout">
+                            {% translate "Place order with M-Pesa" %}<i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                        </button>
+                        <p class="checkout-secure-note text-center mb-0 mt-3">
+                            <i class="fas fa-lock me-1" aria-hidden="true"></i>{% translate "Secure payment via M-Pesa" %}
+                        </p>
+                    </aside>
+                </div>
+            </div>
         </form>
         {% else %}
-        <p class="text-center text-muted">{% translate "Your cart is empty." %}</p>
-        <div class="text-center">
+        <section class="checkout-card empty-cart text-center">
+            <div class="empty-cart-icon"><i class="fas fa-shopping-basket" aria-hidden="true"></i></div>
+            <h1 class="h3">{% translate "Your cart is empty." %}</h1>
+            <p class="text-muted">{% translate "Find something you love and it will be waiting here." %}</p>
             <a class="btn btn-primary rounded-pill px-4 py-3" href="{% url 'home' %}">
                 {% translate "Continue shopping" %}
             </a>
-        </div>
+        </section>
         {% endif %}
-    </main>
+    </div>
+</main>
 {% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}

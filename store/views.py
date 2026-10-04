@@ -18,6 +18,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import AccountDetailsForm, CheckoutForm, RegistrationForm
 from .models import Category, Order, OrderItem, Product, WishlistItem
+from .shipping import COUNTY_SHIPPING_RATES, shipping_cost_for_county
 from .services.mpesa import MpesaError, initiate_stk_push
 
 logger = logging.getLogger(__name__)
@@ -137,10 +138,16 @@ def cart(request):
 			return _complete_checkout(request, items, subtotal, form)
 		return redirect("cart")
 	items, subtotal = _cart_summary(request)
+	form = CheckoutForm()
 	return render(
 		request,
 		"store/cart.html",
-		{"cart_items": items, "subtotal": subtotal, "form": CheckoutForm()},
+		{
+			"cart_items": items,
+			"subtotal": subtotal,
+			"form": form,
+			"county_shipping_rates": COUNTY_SHIPPING_RATES.items(),
+		},
 	)
 
 
@@ -149,14 +156,26 @@ def _complete_checkout(request, items, subtotal, form):
 		return render(
 			request,
 			"store/cart.html",
-			{"form": form, "cart_items": items, "subtotal": subtotal},
+			{
+				"form": form,
+				"cart_items": items,
+				"subtotal": subtotal,
+				"county_shipping_rates": COUNTY_SHIPPING_RATES.items(),
+			},
 		)
-	if subtotal != subtotal.to_integral_value():
+	shipping_cost = shipping_cost_for_county(form.cleaned_data["county"])
+	total_cost = subtotal + shipping_cost
+	if total_cost != total_cost.to_integral_value():
 		form.add_error(None, _("M-Pesa payments must total a whole number of Kenya shillings."))
 		return render(
 			request,
 			"store/cart.html",
-			{"form": form, "cart_items": items, "subtotal": subtotal},
+			{
+				"form": form,
+				"cart_items": items,
+				"subtotal": subtotal,
+				"county_shipping_rates": COUNTY_SHIPPING_RATES.items(),
+			},
 		)
 	with transaction.atomic():
 		order = Order.objects.create(
@@ -164,8 +183,12 @@ def _complete_checkout(request, items, subtotal, form):
 			first_name=form.cleaned_data["first_name"],
 			last_name=form.cleaned_data["last_name"],
 			phone_number=form.cleaned_data["phone_number"],
-			delivery_location=form.cleaned_data["delivery_location"],
-			total_cost=subtotal,
+			delivery_location=(
+				f'{form.cleaned_data["county"]} County, '
+				f'{form.cleaned_data["delivery_details"]}'
+			),
+			shipping_cost=shipping_cost,
+			total_cost=total_cost,
 		)
 		OrderItem.objects.bulk_create([
 			OrderItem(order=order, product=item["product"], price=item["product"].price, quantity=item["quantity"])

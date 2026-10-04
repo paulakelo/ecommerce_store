@@ -68,6 +68,7 @@ class Order(models.Model):
     # Crucial for the Daraja STK Push:
     phone_number = models.CharField(max_length=15, help_text="Format: 2547XXXXXXXX")
     delivery_location = models.CharField(max_length=250, help_text="e.g. Hostel name or Apartment")
+    shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     is_paid = models.BooleanField(default=False)
     payment_status = models.CharField(

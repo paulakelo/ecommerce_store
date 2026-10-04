@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from .forms import CheckoutForm
 from .models import Category, Order, Product, WishlistItem
+from .shipping import shipping_cost_for_county
 
 
 @override_settings(ALLOWED_HOSTS=["localhost"])
@@ -43,6 +44,16 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertEqual(self.client.session["cart"][str(self.product.pk)], 3)
 		self.client.post(reverse("cart"), {"remove": str(self.product.pk)})
 		self.assertEqual(self.client.session["cart"], {})
+
+	def test_checkout_shows_nationwide_counties_and_delivery_prices(self):
+		self.set_cart()
+		response = self.client.get(reverse("cart"))
+
+		self.assertContains(response, "Delivery available to all 47 counties in Kenya.")
+		self.assertContains(response, 'value="Uasin Gishu" data-shipping="150"')
+		self.assertContains(response, 'value="Nairobi" data-shipping="650"')
+		self.assertContains(response, 'value="Mombasa" data-shipping="900"')
+		self.assertContains(response, "/static/js/checkout.js")
 
 	def test_homepage_featured_product_uses_cart_endpoint(self):
 		response = self.client.get(reverse("home"))
@@ -331,17 +342,21 @@ class StorefrontWorkflowTests(TestCase):
 					"first_name": "Ada",
 					"last_name": "Njeri",
 					"phone_number": "0712 345 678",
-					"delivery_location": "Kilimani",
+					"county": "Nairobi",
+					"delivery_details": "Kilimani",
 				},
 			)
 
 		self.assertRedirects(response, reverse("cart"), fetch_redirect_response=False)
 		order = Order.objects.get()
 		self.assertEqual(order.phone_number, "254712345678")
-		self.assertEqual(order.total_cost, Decimal("250.00"))
+		self.assertEqual(order.shipping_cost, Decimal("650.00"))
+		self.assertEqual(order.delivery_location, "Nairobi County, Kilimani")
+		self.assertEqual(order.total_cost, Decimal("900.00"))
 		self.assertEqual(order.payment_status, "processing")
 		self.assertEqual(order.items.get().quantity, 2)
 		self.assertTrue(push.called)
+		self.assertEqual(push.call_args.args[1], Decimal("900.00"))
 		self.assertEqual(
 			push.call_args.kwargs["callback_url"],
 			"http://localhost/payments/mpesa/callback/",
@@ -357,7 +372,8 @@ class StorefrontWorkflowTests(TestCase):
 				"first_name": "Ada",
 				"last_name": "Njeri",
 				"phone_number": "1234",
-				"delivery_location": "Kilimani",
+				"county": "Nairobi",
+				"delivery_details": "Kilimani",
 			},
 		)
 		self.assertEqual(response.status_code, 200)
@@ -374,7 +390,8 @@ class StorefrontWorkflowTests(TestCase):
 				"first_name": "Ada",
 				"last_name": "Njeri",
 				"phone_number": "0712345678",
-				"delivery_location": "Kilimani",
+				"county": "Nairobi",
+				"delivery_details": "Kilimani",
 			},
 		)
 		self.assertRedirects(response, reverse("cart"), fetch_redirect_response=False)
@@ -393,7 +410,8 @@ class StorefrontWorkflowTests(TestCase):
 				"first_name": "Ada",
 				"last_name": "Njeri",
 				"phone_number": "0712345678",
-				"delivery_location": "Kilimani",
+				"county": "Nairobi",
+				"delivery_details": "Kilimani",
 			},
 		)
 		self.assertEqual(response.status_code, 200)
@@ -415,7 +433,8 @@ class StorefrontWorkflowTests(TestCase):
 					"first_name": "Ada",
 					"last_name": "Njeri",
 					"phone_number": "0712345678",
-					"delivery_location": "Kilimani",
+					"county": "Nairobi",
+					"delivery_details": "Kilimani",
 				},
 			)
 		self.assertEqual(Order.objects.get().user, user)
@@ -487,11 +506,40 @@ class CheckoutFormTests(TestCase):
 					"first_name": "Ada",
 					"last_name": "Njeri",
 					"phone_number": phone,
-					"delivery_location": "Kilimani",
+					"county": "Nairobi",
+					"delivery_details": "Kilimani",
 				}
 			)
 			self.assertTrue(form.is_valid(), form.errors)
 			self.assertEqual(form.cleaned_data["phone_number"], normalized)
+
+	def test_checkout_form_offers_all_47_counties(self):
+		form = CheckoutForm()
+		county_choices = dict(form.fields["county"].choices)
+
+		self.assertEqual(len(county_choices) - 1, 47)
+		self.assertIn("Nairobi", county_choices)
+		self.assertIn("Uasin Gishu", county_choices)
+
+	def test_nine_digit_mpesa_number_after_country_code_is_accepted(self):
+		form = CheckoutForm(
+			data={
+				"first_name": "Ada",
+				"last_name": "Njeri",
+				"phone_number": "712345678",
+				"county": "Nairobi",
+				"delivery_details": "Kilimani",
+			}
+		)
+		self.assertTrue(form.is_valid(), form.errors)
+		self.assertEqual(form.cleaned_data["phone_number"], "254712345678")
+
+	def test_shipping_costs_scale_by_distance_from_eldoret(self):
+		self.assertEqual(shipping_cost_for_county("Uasin Gishu"), Decimal("150.00"))
+		self.assertEqual(shipping_cost_for_county("Nandi"), Decimal("300.00"))
+		self.assertEqual(shipping_cost_for_county("Nakuru"), Decimal("450.00"))
+		self.assertEqual(shipping_cost_for_county("Nairobi"), Decimal("650.00"))
+		self.assertEqual(shipping_cost_for_county("Mombasa"), Decimal("900.00"))
 
 
 @override_settings(ALLOWED_HOSTS=["localhost"])

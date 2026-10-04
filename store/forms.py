@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
+from .shipping import COUNTY_SHIPPING_RATES
+
 
 class StoreAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
@@ -46,10 +48,27 @@ class CheckoutForm(forms.Form):
         max_length=50, label=_("Last name"), widget=forms.TextInput(attrs={"class": "form-control"})
     )
     phone_number = forms.CharField(
-        max_length=25, label=_("M-Pesa phone number"), widget=forms.TextInput(attrs={"class": "form-control"})
+        max_length=25,
+        label=_("M-Pesa phone number"),
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "712345678",
+                "inputmode": "tel",
+                "autocomplete": "tel-national",
+            }
+        ),
     )
-    delivery_location = forms.CharField(
-        max_length=250, label=_("Delivery location"), widget=forms.TextInput(attrs={"class": "form-control"})
+    county = forms.ChoiceField(
+        label=_("County"),
+        choices=[("", _("Select your county"))]
+        + [(county, _(f"{county} County")) for county in COUNTY_SHIPPING_RATES],
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
+    delivery_details = forms.CharField(
+        max_length=200,
+        label=_("Town, estate, street and nearest landmark"),
+        widget=forms.TextInput(attrs={"class": "form-control"}),
     )
 
     def clean_phone_number(self):
@@ -58,6 +77,8 @@ class CheckoutForm(forms.Form):
             phone = phone[1:]
         if phone.startswith("0"):
             phone = "254" + phone[1:]
+        elif re.fullmatch(r"[17]\d{8}", phone):
+            phone = "254" + phone
         if not re.fullmatch(r"254[17]\d{8}", phone):
             raise forms.ValidationError(
                 _("Enter a Kenyan M-Pesa number, such as 0712345678 or 254712345678.")
