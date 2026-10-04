@@ -1373,7 +1373,16 @@
             <div class="row g-4">
                 {% for product in products %}
                 <div class="col-sm-6 col-lg-4 col-xl-3">
-                    <div class="product-item rounded border p-3 h-100">
+                    <div class="product-item store-product-card h-100">
+                        <form class="product-wishlist" action="{% url 'toggle_wishlist' slug=product.slug %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="{% if product.pk in wishlisted_product_ids %}remove{% else %}add{% endif %}">
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button type="submit" class="wishlist-toggle{% if product.pk in wishlisted_product_ids %} is-saved{% endif %}"
+                                aria-label="{% if product.pk in wishlisted_product_ids %}{% translate 'Remove from wishlist' %}{% else %}{% translate 'Add to wishlist' %}{% endif %}">
+                                <i class="{% if product.pk in wishlisted_product_ids %}fas{% else %}far{% endif %} fa-heart" aria-hidden="true"></i>
+                            </button>
+                        </form>
                         <a href="{% url 'product_detail' slug=product.slug %}" aria-label="{{ product.name }}">
                             {% if product.image %}
                             <img src="{{ product.image.url }}" class="catalog-product-image img-fluid mb-3" alt="{{ product.name }}">
@@ -1383,26 +1392,19 @@
                             </div>
                             {% endif %}
                         </a>
-                        <p class="text-muted mb-1"><a href="{% url 'category' slug=product.category.slug %}">{{ product.category.name }}</a></p>
-                        <h2 class="h5"><a href="{% url 'product_detail' slug=product.slug %}">{{ product.name }}</a></h2>
-                        <p class="text-primary fs-5">KES {{ product.price|floatformat:2 }}</p>
-                        <form action="{% url 'add_to_cart' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="product_id" value="{{ product.pk }}">
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
-                                <i class="fas fa-shopping-cart me-2"></i> {% translate "Add to cart" %}
-                            </button>
-                        </form>
-                        <form class="mt-2" action="{% url 'toggle_wishlist' slug=product.slug %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="action" value="{% if product.pk in wishlisted_product_ids %}remove{% else %}add{% endif %}">
-                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                            <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
-                                <i class="fas fa-heart me-2"></i>
-                                {% if product.pk in wishlisted_product_ids %}{% translate "Remove from wishlist" %}{% else %}{% translate "Add to wishlist" %}{% endif %}
-                            </button>
-                        </form>
+                        <div class="product-card-info">
+                            <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.name }}</a>
+                            <a href="{% url 'product_detail' slug=product.slug %}" class="product-name">{{ product.name }}</a>
+                            <span class="product-price">KES {{ product.price|floatformat:2 }}</span>
+                        </div>
+                        <div class="product-item-add">
+                            <form action="{% url 'add_to_cart' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.pk }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn add-cart-button"><i class="fas fa-shopping-cart" aria-hidden="true"></i> {% translate "Add" %}</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 {% empty %}

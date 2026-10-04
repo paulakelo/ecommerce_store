@@ -95,6 +95,7 @@ def cart(request):
 		cart_data = request.session.get(CART_SESSION_KEY, {})
 		remove_id = request.POST.get("remove")
 		quantity_error = False
+		quantity_errors = []
 		if remove_id:
 			cart_data.pop(remove_id, None)
 		else:
@@ -106,27 +107,39 @@ def cart(request):
 					quantity = int(value)
 				except (TypeError, ValueError):
 					quantity_error = True
-					messages.error(request, _("Enter a valid product quantity."))
+					quantity_errors.append(_("Enter a valid product quantity."))
 					continue
 				try:
 					product = Product.objects.get(pk=product_id, is_available=True)
 				except Product.DoesNotExist:
 					cart_data.pop(product_id, None)
 					quantity_error = True
-					messages.error(request, _("A product in your cart is no longer available."))
+					quantity_errors.append(_("A product in your cart is no longer available."))
 					continue
 				if quantity < 1:
 					if request.POST.get("action") == "checkout":
 						quantity_error = True
-						messages.error(request, _("Product quantities must be greater than zero."))
+						quantity_errors.append(_("Product quantities must be greater than zero."))
 					else:
 						cart_data.pop(product_id, None)
 				elif quantity <= product.stock:
 					cart_data[product_id] = quantity
 				else:
 					quantity_error = True
-					messages.error(request, _("Quantity exceeds available stock."))
+					quantity_errors.append(_("Quantity exceeds available stock."))
 		request.session[CART_SESSION_KEY] = cart_data
+		if request.headers.get("x-requested-with") == "XMLHttpRequest":
+			items, subtotal = _cart_summary(request)
+			return JsonResponse({
+				"subtotal": str(subtotal),
+				"items": [
+					{"id": item["product"].pk, "quantity": item["quantity"], "line_total": str(item["line_total"])}
+					for item in items
+				],
+				"errors": quantity_errors,
+			}, status=400 if quantity_error else 200)
+		for error in quantity_errors:
+			messages.error(request, error)
 		if request.POST.get("action") == "checkout":
 			if quantity_error:
 				return redirect("cart")

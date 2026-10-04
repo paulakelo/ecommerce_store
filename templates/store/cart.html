@@ -21,7 +21,7 @@
             </a>
         </div>
 
-        <form method="post" novalidate>
+        <form method="post" novalidate data-cart-form>
             {% csrf_token %}
             <div class="row g-4 g-xl-5 align-items-start">
                 <div class="col-lg-7">
@@ -93,14 +93,14 @@
 
                 <div class="col-lg-5">
                     <aside class="checkout-card order-summary" aria-labelledby="order-summary-title"
-                        data-subtotal="{{ subtotal|floatformat:2 }}">
+                        data-subtotal="{{ subtotal|floatformat:2 }}" data-update-url="{% url 'cart' %}">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h2 class="h5 mb-0" id="order-summary-title">{% translate "Your order" %}</h2>
                             <span class="text-muted small">{{ cart_items|length }} {% translate "item(s)" %}</span>
                         </div>
                         <div class="order-items">
                             {% for item in cart_items %}
-                            <div class="order-item">
+                            <div class="order-item" data-cart-item="{{ item.product.pk }}" data-unit-price="{{ item.product.price }}">
                                 {% if item.product.image %}
                                 <img class="order-item-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
                                 {% else %}
@@ -114,9 +114,10 @@
                                     <input class="form-control form-control-sm order-quantity"
                                         id="quantity-{{ item.product.pk }}" type="number"
                                         name="quantity_{{ item.product.pk }}" value="{{ item.quantity }}"
-                                        min="1" max="{{ item.product.stock }}">
+                                        min="1" max="{{ item.product.stock }}" inputmode="numeric"
+                                        aria-describedby="cart-update-status">
                                 </div>
-                                <strong class="order-item-price">KES {{ item.line_total|floatformat:2 }}</strong>
+                                <strong class="order-item-price" data-line-total>KES {{ item.line_total|floatformat:2 }}</strong>
                                 <button class="btn btn-link text-muted remove-item p-1" type="submit"
                                     name="remove" value="{{ item.product.pk }}" formnovalidate
                                     aria-label="{% translate 'Remove' %} {{ item.product.name }}">
@@ -128,7 +129,7 @@
                         <div class="order-totals">
                             <div class="summary-line">
                                 <span>{% translate "Subtotal" %}</span>
-                                <span>KES {{ subtotal|floatformat:2 }}</span>
+                            <span data-subtotal-value>KES {{ subtotal|floatformat:2 }}</span>
                             </div>
                             <div class="summary-line">
                                 <span>{% translate "Delivery" %}</span>
@@ -139,9 +140,9 @@
                                 <strong id="order-total-value">KES {{ subtotal|floatformat:2 }}</strong>
                             </div>
                         </div>
-                        <button class="btn btn-link p-0 mt-3" type="submit" name="action" value="update" formnovalidate>
-                            {% translate "Update quantities" %}
-                        </button>
+                        <p class="cart-update-status mb-0 mt-3" id="cart-update-status" role="status" aria-live="polite">
+                            {% translate "Quantities save automatically." %}
+                        </p>
                         {% for error in form.non_field_errors %}
                         <div class="alert alert-danger mt-3 mb-0" role="alert">{{ error }}</div>
                         {% endfor %}

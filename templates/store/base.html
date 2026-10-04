@@ -94,9 +94,10 @@
             </nav>
             <div class="col-auto">
                 <nav class="navbar navbar-light justify-content-end p-0">
-                    <a href="{% url 'cart' %}" class="nav-item nav-link px-3{% if request.resolver_match.url_name == 'cart' %} active{% endif %}"
-                        aria-label="{% translate 'Cart' %}" title="{% translate 'Cart' %}">
+                    <a href="{% url 'cart' %}" class="nav-item nav-link cart-link px-3{% if request.resolver_match.url_name == 'cart' %} active{% endif %}"
+                        aria-label="{% translate 'Cart' %}{% if cart_item_count %}, {{ cart_item_count }} {% translate 'items' %}{% endif %}" title="{% translate 'Cart' %}">
                         <i class="fas fa-shopping-cart"></i>
+                        {% if cart_item_count %}<span class="cart-count">{{ cart_item_count }}</span>{% endif %}
                     </a>
                 </nav>
             </div>
@@ -105,69 +106,32 @@
 
     {% block content %}{% endblock %}
 
-    <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+    <footer class="site-footer">
         <div class="container py-5">
-            <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
-                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
-                        </div>
-                        <h4 class="text-white">Address</h4>
-                        <p class="mb-2"></p>
-                    </div>
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-5">
+                    <a href="{% url 'home' %}" class="footer-brand">EldoMarket</a>
+                    <p class="footer-intro mb-0">Simple, dependable shopping for everyday essentials.</p>
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
-                            <i class="fas fa-envelope fa-2x text-primary"></i>
-                        </div>
-                        <h4 class="text-white">Mail Us</h4>
-                        <p class="mb-2"></p>
-                    </div>
+                <div class="col-6 col-lg-3">
+                    <h2 class="footer-heading">Shop</h2>
+                    <nav class="footer-links" aria-label="Footer shopping links">
+                        <a href="{% url 'home' %}">Home</a>
+                        <a href="{% url 'shop' %}">Shop</a>
+                        <a href="{% url 'cart' %}">Cart</a>
+                    </nav>
                 </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
-                            <i class="fa fa-phone-alt fa-2x text-primary"></i>
-                        </div>
-                        <h4 class="text-white">Telephone</h4>
-                        <p class="mb-2"></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
-                            <i class="far fa-clock fa-2x text-primary"></i>
-                        </div>
-                        <h4 class="text-white">Working Hours</h4>
-                        <p class="mb-2">Mon - Sat: 8AM - 6PM</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-5">
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Newsletter</h4>
-                        <p class="mb-3">Subscribe for the latest tech deals and M-Pesa offers.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Customer Support</h4>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-3">
-                    <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Quick Links</h4>
-                        <a href="{% url 'home' %}"><i class="fas fa-angle-right me-2"></i> Home</a>
-                        <a href="{% url 'shop' %}"><i class="fas fa-angle-right me-2"></i> Shop</a>
-                        <a href="{% url 'cart' %}"><i class="fas fa-angle-right me-2"></i> Cart</a>
+                <div class="col-6 col-lg-4">
+                    <h2 class="footer-heading">Get in touch</h2>
+                    <div class="footer-contact">
+                        <span><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Location coming soon</span>
+                        <span><i class="far fa-envelope" aria-hidden="true"></i> hello@example.com</span>
+                        <span><i class="far fa-clock" aria-hidden="true"></i> Hours coming soon</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
     <div class="container-fluid copyright py-4">
         <div class="container">
             <div class="row g-4 align-items-center">
@@ -175,9 +139,7 @@
                     <span class="text-white"><a href="{% url 'home' %}" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>EldoMarket</a>, All rights reserved.</span>
                 </div>
                 <div class="col-md-6 text-center text-md-end text-white">
-                    Designed By <a class="border-bottom text-white" href="https://htmlcodex.com">HTML Codex</a>.
-                    Distributed By <a class="border-bottom text-white" href="https://themewagon.com">ThemeWagon</a>.
-                    Backend powered by Django
+                    Built for everyday shopping.
                 </div>
             </div>
         </div>

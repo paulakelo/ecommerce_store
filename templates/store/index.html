@@ -256,6 +256,10 @@
                         <p class="text-dark">{% translate "Discover this product." %}</p>
                         {% endif %}
                         <p class="text-primary fs-4">KES {{ product.price|floatformat:2 }}</p>
+                        <div class="hero-product-meta">
+                            <span><i class="fas fa-check-circle" aria-hidden="true"></i> {% translate "In stock" %}</span>
+                            <span><i class="fas fa-truck" aria-hidden="true"></i> {% translate "Delivery calculated at checkout" %}</span>
+                        </div>
                         <div class="d-flex flex-wrap gap-2">
                             <form action="{% url 'add_to_cart' %}" method="post">
                                 {% csrf_token %}
@@ -294,8 +298,8 @@
                     <div class="d-inline-flex align-items-center">
                         <i class="fas fa-mobile-alt fa-2x text-primary"></i>
                         <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Lipa na M-Pesa</h6>
-                            <p class="mb-0">Instant &amp; secure mobile checkout</p>
+                            <h6 class="text-uppercase mb-2">Pay with M-Pesa</h6>
+                            <p class="mb-0">Secure mobile checkout</p>
                         </div>
                     </div>
                 </div>
@@ -305,8 +309,8 @@
                     <div class="d-flex align-items-center">
                         <i class="fas fa-truck fa-2x text-primary"></i>
                         <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Fast Local Delivery</h6>
-                            <p class="mb-0">Quick delivery across campus and town</p>
+                            <h6 class="text-uppercase mb-2">Delivery across Kenya</h6>
+                            <p class="mb-0">Delivery fees shown at checkout</p>
                         </div>
                     </div>
                 </div>
@@ -316,8 +320,8 @@
                     <div class="d-flex align-items-center">
                         <i class="fas fa-language fa-2x text-primary"></i>
                         <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Bilingual Platform</h6>
-                            <p class="mb-0">Browse in English or Kiswahili</p>
+                            <h6 class="text-uppercase mb-2">English &amp; Kiswahili</h6>
+                            <p class="mb-0">Shop in the language you prefer</p>
                         </div>
                     </div>
                 </div>
@@ -365,7 +369,7 @@
             <div class="tab-class">
                 <div class="row g-4 align-items-stretch">
                     <div class="col-lg-4 text-start wow fadeInLeft" data-wow-delay="0.1s">
-                        <h1>{% translate "A Sample of Our Products" %}</h1>
+                        <h1>{% translate "Popular picks" %}</h1>
                     </div>
                     <div class="col-lg-8 text-end wow fadeInRight" data-wow-delay="0.1s">
                         <ul class="nav nav-pills d-inline-flex text-center mb-5">
@@ -1288,8 +1292,17 @@
                         <div class="row g-4">
                             {% for product in products %}
                             <div class="col-md-6 col-lg-4 col-xl-3">
-                                <div class="product-item rounded wow fadeInUp">
-                                    <div class="product-item-inner border rounded">
+                                <div class="product-item store-product-card wow fadeInUp">
+                                    <form class="product-wishlist" action="{% url 'toggle_wishlist' slug=product.slug %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="{% if product.pk in wishlisted_product_ids %}remove{% else %}add{% endif %}">
+                                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                        <button type="submit" class="wishlist-toggle{% if product.pk in wishlisted_product_ids %} is-saved{% endif %}"
+                                            aria-label="{% if product.pk in wishlisted_product_ids %}{% translate 'Remove from wishlist' %}{% else %}{% translate 'Add to wishlist' %}{% endif %}">
+                                            <i class="{% if product.pk in wishlisted_product_ids %}fas{% else %}far{% endif %} fa-heart" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
+                                    <div class="product-item-inner">
                                         <div class="product-item-inner-item">
                                             <a href="{% url 'product_detail' slug=product.slug %}" aria-label="{{ product.name }}">
                                                 {% if product.image %}
@@ -1304,28 +1317,19 @@
                                                 <a href="{% url 'product_detail' slug=product.slug %}" aria-label="{% translate 'View product details' %}"><i class="fa fa-eye fa-1x"></i></a>
                                             </div>
                                         </div>
-                                        <div class="text-center rounded-bottom p-4">
-                                            <a href="{% url 'category' slug=product.category.slug %}" class="d-block mb-2">{{ product.category.name }}</a>
-                                            <a href="{% url 'product_detail' slug=product.slug %}" class="d-block h4">{{ product.name }}</a>
-                                            <span class="text-primary fs-5">KES {{ product.price|floatformat:2 }}</span>
+                                        <div class="product-card-info">
+                                            <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.name }}</a>
+                                            <a href="{% url 'product_detail' slug=product.slug %}" class="product-name">{{ product.name }}</a>
+                                            <span class="product-price">KES {{ product.price|floatformat:2 }}</span>
                                         </div>
                                     </div>
-                                    <div class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
+                                    <div class="product-item-add">
                                         <form action="{% url 'add_to_cart' %}" method="post">
                                             {% csrf_token %}
                                             <input type="hidden" name="product_id" value="{{ product.pk }}">
                                             <input type="hidden" name="quantity" value="1">
-                                            <button type="submit" class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4">
-                                                <i class="fas fa-shopping-cart me-2"></i> {% translate "Add to cart" %}
-                                            </button>
-                                        </form>
-                                        <form action="{% url 'toggle_wishlist' slug=product.slug %}" method="post">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="action" value="{% if product.pk in wishlisted_product_ids %}remove{% else %}add{% endif %}">
-                                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                                            <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
-                                                <i class="fas fa-heart me-2"></i>
-                                                {% if product.pk in wishlisted_product_ids %}{% translate "Remove from wishlist" %}{% else %}{% translate "Add to wishlist" %}{% endif %}
+                                            <button type="submit" class="btn add-cart-button">
+                                                <i class="fas fa-shopping-cart" aria-hidden="true"></i> {% translate "Add" %}
                                             </button>
                                         </form>
                                     </div>
