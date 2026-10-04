@@ -203,6 +203,7 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertNotContains(response, "Free Return")
 		self.assertNotContains(response, "Support 24/7")
 
+	@override_settings(DEBUG=False)
 	def test_catalog_uses_uploaded_product_image_url(self):
 		from django.core.files.uploadedfile import SimpleUploadedFile
 
@@ -221,6 +222,9 @@ class StorefrontWorkflowTests(TestCase):
 
 		self.assertContains(response, f'src="{product.image.url}"')
 		self.assertContains(response, 'class="catalog-product-image')
+		image_response = self.client.get(product.image.url)
+		self.assertEqual(image_response.status_code, 200)
+		self.assertEqual(b"".join(image_response.streaming_content), b"test-image-content")
 
 	def test_shop_and_single_pages_use_database_product_for_add_button(self):
 		for route_name in ("home", "shop", "single"):

@@ -3,6 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
+from django.views.static import serve
 from store.forms import StoreAuthenticationForm
 from store.views import (
 	account,
@@ -20,6 +21,7 @@ from store.views import (
 )
 
 urlpatterns = [
+	path("media/<path:path>", serve, {"document_root": settings.MEDIA_ROOT}, name="media"),
 	path("", home, name="home"),
 	path("cart/", cart, name="cart"),
 	path("cart/add/", add_to_cart, name="add_to_cart"),
