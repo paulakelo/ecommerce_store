@@ -15,8 +15,7 @@
     let saveTimer;
     const formatKes = (amount) =>
         `KES ${amount.toLocaleString("en-KE", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            maximumFractionDigits: 0,
         })}`;
 
     const updateTotals = () => {

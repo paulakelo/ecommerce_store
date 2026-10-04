@@ -113,7 +113,7 @@
                                         min="1" max="{{ item.product.stock }}" inputmode="numeric"
                                         aria-describedby="cart-update-status">
                                 </div>
-                                <strong class="order-item-price" data-line-total>KES {{ item.line_total|floatformat:2 }}</strong>
+                                <strong class="order-item-price" data-line-total>KES {{ item.line_total|floatformat:0 }}</strong>
                                 <button class="btn btn-link text-muted remove-item p-1" type="submit"
                                     name="remove" value="{{ item.product.pk }}" formnovalidate
                                     aria-label="{% translate 'Remove' %} {{ item.product.name }}">
@@ -125,7 +125,7 @@
                         <div class="order-totals">
                             <div class="summary-line">
                                 <span>{% translate "Subtotal" %}</span>
-                            <span data-subtotal-value>KES {{ subtotal|floatformat:2 }}</span>
+                            <span data-subtotal-value>KES {{ subtotal|floatformat:0 }}</span>
                             </div>
                             <div class="summary-line">
                                 <span>{% translate "Delivery" %}</span>
@@ -133,7 +133,7 @@
                             </div>
                             <div class="summary-line summary-total">
                                 <strong>{% translate "Total" %}</strong>
-                                <strong id="order-total-value">KES {{ subtotal|floatformat:2 }}</strong>
+                                <strong id="order-total-value">KES {{ subtotal|floatformat:0 }}</strong>
                             </div>
                         </div>
                         <p class="cart-update-status mb-0 mt-3" id="cart-update-status" role="status" aria-live="polite">

@@ -106,7 +106,7 @@
                             class="rounded-circle btn-md-square border"><i class="fas fa-heart"></i></a>
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center"><span
                             class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span>
-                        <span class="text-dark ms-2">KES 0.00</span></a>
+                        <span class="text-dark ms-2">KES 0</span></a>
                 </div>
             </div>
         </div>
@@ -688,7 +688,7 @@
                 <div class="col-lg-7">
                     <p class="text-muted">{{ featured_product.category.name }}</p>
                     <h1 class="mb-3">{{ featured_product.name }}</h1>
-                    <p class="text-primary fs-3">KES {{ featured_product.price|floatformat:2 }}</p>
+                    <p class="text-primary fs-3">KES {{ featured_product.price|floatformat:0 }}</p>
                     {% if featured_product.description %}
                     <p>{{ featured_product.description }}</p>
                     {% else %}

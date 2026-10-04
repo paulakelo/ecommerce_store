@@ -38,7 +38,7 @@ class StorefrontWorkflowTests(TestCase):
 
 		response = self.client.get(reverse("cart"))
 		self.assertContains(response, "Test phone")
-		self.assertContains(response, "KES 250.00")
+		self.assertContains(response, "KES 250")
 
 		self.client.post(reverse("cart"), {f"quantity_{self.product.pk}": "3"})
 		self.assertEqual(self.client.session["cart"][str(self.product.pk)], 3)

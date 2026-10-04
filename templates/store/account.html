@@ -36,7 +36,7 @@
                             <tr>
                                 <th>#{{ order.pk }}</th>
                                 <td>{{ order.created|date:"DATE_FORMAT" }}</td>
-                                <td>KES {{ order.total_cost|floatformat:2 }}</td>
+                                <td>KES {{ order.total_cost|floatformat:0 }}</td>
                                 <td>{{ order.get_payment_status_display }}</td>
                             </tr>
                             {% endfor %}
@@ -65,7 +65,7 @@
                             {% endif %}
                             <h3 class="h5">{{ item.product.name }}</h3>
                         </a>
-                        <p class="text-primary">KES {{ item.product.price|floatformat:2 }}</p>
+                        <p class="text-primary">KES {{ item.product.price|floatformat:0 }}</p>
                         <form action="{% url 'toggle_wishlist' slug=item.product.slug %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="remove">

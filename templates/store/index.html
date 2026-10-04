@@ -255,7 +255,7 @@
                         {% else %}
                         <p class="text-dark">{% translate "Discover this product." %}</p>
                         {% endif %}
-                        <p class="text-primary fs-4">KES {{ product.price|floatformat:2 }}</p>
+                        <p class="text-primary fs-4">KES {{ product.price|floatformat:0 }}</p>
                         <div class="hero-product-meta">
                             <span><i class="fas fa-check-circle" aria-hidden="true"></i> {% translate "In stock" %}</span>
                             <span><i class="fas fa-truck" aria-hidden="true"></i> {% translate "Delivery calculated at checkout" %}</span>
@@ -273,9 +273,10 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="action" value="{% if product.pk in wishlisted_product_ids %}remove{% else %}add{% endif %}">
                                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                                <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
-                                    <i class="fas fa-heart me-2"></i>
-                                    {% if product.pk in wishlisted_product_ids %}{% translate "Remove from wishlist" %}{% else %}{% translate "Add to wishlist" %}{% endif %}
+                                <button type="submit" class="wishlist-toggle{% if product.pk in wishlisted_product_ids %} is-saved{% endif %}"
+                                    aria-label="{% if product.pk in wishlisted_product_ids %}{% translate 'Remove from wishlist' %}{% else %}{% translate 'Add to wishlist' %}{% endif %}"
+                                    title="{% if product.pk in wishlisted_product_ids %}{% translate 'Remove from wishlist' %}{% else %}{% translate 'Add to wishlist' %}{% endif %}">
+                                    <i class="{% if product.pk in wishlisted_product_ids %}fas{% else %}far{% endif %} fa-heart" aria-hidden="true"></i>
                                 </button>
                             </form>
                         </div>
@@ -1320,7 +1321,7 @@
                                         <div class="product-card-info">
                                             <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.name }}</a>
                                             <a href="{% url 'product_detail' slug=product.slug %}" class="product-name">{{ product.name }}</a>
-                                            <span class="product-price">KES {{ product.price|floatformat:2 }}</span>
+                                            <span class="product-price">KES {{ product.price|floatformat:0 }}</span>
                                         </div>
                                     </div>
                                     <div class="product-item-add">

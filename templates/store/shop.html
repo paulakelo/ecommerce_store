@@ -105,7 +105,7 @@
                             class="rounded-circle btn-md-square border"><i class="fas fa-heart"></i></a>
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center"><span
                             class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span>
-                        <span class="text-dark ms-2">KES 0.00</span></a>
+                        <span class="text-dark ms-2">KES 0</span></a>
                 </div>
             </div>
         </div>
@@ -1395,7 +1395,7 @@
                         <div class="product-card-info">
                             <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.name }}</a>
                             <a href="{% url 'product_detail' slug=product.slug %}" class="product-name">{{ product.name }}</a>
-                            <span class="product-price">KES {{ product.price|floatformat:2 }}</span>
+                            <span class="product-price">KES {{ product.price|floatformat:0 }}</span>
                         </div>
                         <div class="product-item-add">
                             <form action="{% url 'add_to_cart' %}" method="post">
