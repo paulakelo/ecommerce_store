@@ -685,6 +685,26 @@ class AccountDashboardTests(TestCase):
 		self.assertContains(response, "This field is required")
 		self.assertContains(response, "Enter a valid email address")
 
+	def test_account_settings_prefill_missing_names_from_latest_order(self):
+		Order.objects.create(
+			user=self.user,
+			first_name="Amina",
+			last_name="Wanjiku",
+			phone_number="254712345678",
+			delivery_location="Nairobi",
+			total_cost="500.00",
+		)
+		self.user.first_name = "Saved"
+		self.user.save(update_fields=["first_name"])
+		self.client.force_login(self.user)
+
+		response = self.client.get(reverse("account"))
+
+		form = response.context["form"]
+		self.assertEqual(form["first_name"].value(), "Saved")
+		self.assertEqual(form["last_name"].value(), "Wanjiku")
+		self.assertEqual(form["email"].value(), "")
+
 	def test_wishlist_add_remove_and_account_listing_are_user_specific(self):
 		category = Category.objects.create(name="Wishlist Category", slug="wishlist")
 		product = Product.objects.create(

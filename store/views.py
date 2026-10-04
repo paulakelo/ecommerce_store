@@ -275,7 +275,19 @@ def register(request):
 
 @login_required
 def account(request):
-	form = AccountDetailsForm(request.POST or None, instance=request.user)
+	initial = {}
+	if request.method == "GET" and (
+		not request.user.first_name or not request.user.last_name
+	):
+		latest_order = request.user.orders.order_by("-created").first()
+		if latest_order:
+			if not request.user.first_name:
+				initial["first_name"] = latest_order.first_name
+			if not request.user.last_name:
+				initial["last_name"] = latest_order.last_name
+	form = AccountDetailsForm(
+		request.POST or None, instance=request.user, initial=initial
+	)
 	if request.method == "POST" and form.is_valid():
 		form.save()
 		messages.success(request, _("Your account details have been updated."))
