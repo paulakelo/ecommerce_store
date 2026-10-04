@@ -18,13 +18,43 @@ class StoreAuthenticationForm(AuthenticationForm):
 
 
 class RegistrationForm(UserCreationForm):
+    first_name = forms.CharField(
+        label=_("First name"),
+        max_length=150,
+        widget=forms.TextInput(attrs={"autocomplete": "given-name"}),
+    )
+    last_name = forms.CharField(
+        label=_("Last name"),
+        max_length=150,
+        widget=forms.TextInput(attrs={"autocomplete": "family-name"}),
+    )
+    email = forms.EmailField(
+        label=_("Email address"),
+        widget=forms.EmailInput(attrs={"autocomplete": "email"}),
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = ("username", "first_name", "last_name", "email")
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
 
+    def clean_email(self):
+        return self.cleaned_data["email"].strip().lower()
+
 
 class AccountDetailsForm(forms.ModelForm):
+    first_name = forms.CharField(
+        label=_("First name"), max_length=150, required=True
+    )
+    last_name = forms.CharField(
+        label=_("Last name"), max_length=150, required=True
+    )
+    email = forms.EmailField(label=_("Email address"), required=True)
+
     class Meta:
         model = get_user_model()
         fields = ("first_name", "last_name", "email")
@@ -38,6 +68,17 @@ class AccountDetailsForm(forms.ModelForm):
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        autocomplete = {
+            "first_name": "given-name",
+            "last_name": "family-name",
+            "email": "email",
+        }
+        for field_name, field in self.fields.items():
+            field.widget.attrs["class"] = "form-control"
+            field.widget.attrs["autocomplete"] = autocomplete[field_name]
 
 
 class CheckoutForm(forms.Form):

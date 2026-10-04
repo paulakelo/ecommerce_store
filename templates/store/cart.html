@@ -17,7 +17,7 @@
             </a>
         </div>
 
-        <form method="post" novalidate data-cart-form>
+        <form method="post" data-cart-form>
             {% csrf_token %}
             <div class="row g-4 g-xl-5 align-items-start">
                 <div class="col-lg-7">
@@ -31,17 +31,17 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-sm-6">
-                                <label class="form-label" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                                <label class="form-label" for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}<span class="required-mark" aria-hidden="true">*</span></label>
                                 {{ form.first_name }}
                                 {% for error in form.first_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
                             </div>
                             <div class="col-sm-6">
-                                <label class="form-label" for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                                <label class="form-label" for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}<span class="required-mark" aria-hidden="true">*</span></label>
                                 {{ form.last_name }}
                                 {% for error in form.last_name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
                             </div>
                             <div class="col-12">
-                                <label class="form-label" for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+                                <label class="form-label" for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}<span class="required-mark" aria-hidden="true">*</span></label>
                                 <div class="input-group">
                                     <span class="input-group-text">+254</span>
                                     {{ form.phone_number }}
@@ -62,7 +62,7 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label" for="{{ form.county.id_for_label }}">{{ form.county.label }}</label>
+                                <label class="form-label" for="{{ form.county.id_for_label }}">{{ form.county.label }}<span class="required-mark" aria-hidden="true">*</span></label>
                                 <select class="form-select" name="{{ form.county.html_name }}" id="{{ form.county.id_for_label }}" required>
                                     <option value="">{% translate "Select your county" %}</option>
                                     {% for county, fee in county_shipping_rates %}
@@ -74,7 +74,7 @@
                                 {% for error in form.county.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
                             </div>
                             <div class="col-12">
-                                <label class="form-label" for="{{ form.delivery_details.id_for_label }}">{{ form.delivery_details.label }}</label>
+                                <label class="form-label" for="{{ form.delivery_details.id_for_label }}">{{ form.delivery_details.label }}<span class="required-mark" aria-hidden="true">*</span></label>
                                 {{ form.delivery_details }}
                                 <div class="form-text">{% translate "Include the town, estate or street, and a nearby landmark." %}</div>
                                 {% for error in form.delivery_details.errors %}<div class="field-error">{{ error }}</div>{% endfor %}

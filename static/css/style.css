@@ -424,6 +424,11 @@
     font-weight: 600;
 }
 
+.required-mark {
+    margin-left: .15rem;
+    color: #b42318;
+}
+
 .checkout-card .form-control,
 .checkout-card .form-select,
 .checkout-card .input-group-text {

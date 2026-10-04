@@ -54,6 +54,16 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertContains(response, 'value="Nairobi" data-shipping="650"')
 		self.assertContains(response, 'value="Mombasa" data-shipping="900"')
 		self.assertContains(response, "/static/js/checkout.js")
+		html = response.content.decode()
+		self.assertNotRegex(html, r"<form[^>]*\snovalidate(?:\s|>)")
+		for field_name in (
+			"first_name",
+			"last_name",
+			"phone_number",
+			"county",
+			"delivery_details",
+		):
+			self.assertRegex(html, rf'name="{field_name}"[^>]*required')
 
 	def test_help_centre_provides_checkout_answers(self):
 		response = self.client.get(reverse("help"))
@@ -503,6 +513,12 @@ class StorefrontWorkflowTests(TestCase):
 
 
 class CheckoutFormTests(TestCase):
+	def test_all_checkout_fields_are_required(self):
+		form = CheckoutForm()
+
+		self.assertTrue(all(field.required for field in form.fields.values()))
+		self.assertFalse(form.is_valid())
+
 	def test_accepts_local_and_international_kenyan_phone_formats(self):
 		for phone, normalized in (
 			("0712345678", "254712345678"),
@@ -580,13 +596,40 @@ class AccountDashboardTests(TestCase):
 			reverse("register"),
 			{
 				"username": "new-customer",
+				"first_name": "New",
+				"last_name": "Customer",
+				"email": " NEW-CUSTOMER@EXAMPLE.COM ",
 				"password1": "R8m$eZ4qV!7pL2x",
 				"password2": "R8m$eZ4qV!7pL2x",
 			},
 		)
 		self.assertRedirects(response, reverse("account"), fetch_redirect_response=False)
 		self.assertEqual(self.client.get(reverse("account")).status_code, 200)
+		registered_user = self.user_model.objects.get(username="new-customer")
+		self.assertEqual(registered_user.first_name, "New")
+		self.assertEqual(registered_user.last_name, "Customer")
+		self.assertEqual(registered_user.email, "new-customer@example.com")
+		self.assertFalse(registered_user.is_staff)
+		self.assertFalse(registered_user.is_superuser)
 		self.assertContains(self.client.get(reverse("home")), reverse("logout"))
+
+	def test_registration_requires_names_and_a_valid_email(self):
+		response = self.client.post(
+			reverse("register"),
+			{
+				"username": "incomplete-customer",
+				"first_name": "",
+				"last_name": "",
+				"email": "not-an-email",
+				"password1": "R8m$eZ4qV!7pL2x",
+				"password2": "R8m$eZ4qV!7pL2x",
+			},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "This field is required")
+		self.assertContains(response, "Enter a valid email address")
+		self.assertFalse(self.user_model.objects.filter(username="incomplete-customer").exists())
 
 	def test_login_redirects_to_dashboard_and_logout_requires_post(self):
 		response = self.client.post(
@@ -629,6 +672,18 @@ class AccountDashboardTests(TestCase):
 		self.assertRedirects(response, reverse("account"), fetch_redirect_response=False)
 		self.user.refresh_from_db()
 		self.assertEqual(self.user.first_name, "Amina")
+
+	def test_account_details_require_names_and_a_valid_email(self):
+		self.client.force_login(self.user)
+
+		response = self.client.post(
+			reverse("account"),
+			{"first_name": "", "last_name": "", "email": "not-an-email"},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "This field is required")
+		self.assertContains(response, "Enter a valid email address")
 
 	def test_wishlist_add_remove_and_account_listing_are_user_specific(self):
 		category = Category.objects.create(name="Wishlist Category", slug="wishlist")
