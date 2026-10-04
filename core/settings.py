@@ -2,7 +2,10 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ.get(
 	"DJANGO_SECRET_KEY", "django-insecure-local-development-only"
@@ -91,7 +94,9 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 MPESA_ENVIRONMENT = os.environ.get("MPESA_ENVIRONMENT", "sandbox").lower()
 MPESA_CONSUMER_KEY = os.environ.get("MPESA_CONSUMER_KEY", "")
 MPESA_CONSUMER_SECRET = os.environ.get("MPESA_CONSUMER_SECRET", "")
-MPESA_SHORTCODE = os.environ.get("MPESA_SHORTCODE", "")
+MPESA_SHORTCODE = os.environ.get(
+	"MPESA_SHORTCODE", os.environ.get("BUSINESS_SHORTCODE", "")
+)
 MPESA_PASSKEY = os.environ.get("MPESA_PASSKEY", "")
 MPESA_CALLBACK_URL = os.environ.get("MPESA_CALLBACK_URL", "")
 MPESA_TIMEOUT = int(os.environ.get("MPESA_TIMEOUT", "15"))

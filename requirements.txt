@@ -1,3 +1,4 @@
 Django>=6.1,<6.2
 Pillow>=12,<13
 requests>=2.34,<3
+python-dotenv>=1,<2

@@ -173,7 +173,10 @@ def _complete_checkout(request, items, subtotal, form):
 		])
 	try:
 		response = initiate_stk_push(
-			order.phone_number, order.total_cost, str(order.pk)
+			order.phone_number,
+			order.total_cost,
+			str(order.pk),
+			callback_url=request.build_absolute_uri(reverse("mpesa_callback")),
 		)
 	except MpesaError:
 		logger.exception("M-Pesa STK Push failed for order %s", order.pk)

@@ -338,6 +338,10 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertEqual(order.payment_status, "processing")
 		self.assertEqual(order.items.get().quantity, 2)
 		self.assertTrue(push.called)
+		self.assertEqual(
+			push.call_args.kwargs["callback_url"],
+			"http://localhost/payments/mpesa/callback/",
+		)
 		self.assertNotIn("cart", self.client.session)
 
 	def test_checkout_rejects_invalid_phone_before_creating_order(self):
@@ -645,3 +649,7 @@ class MpesaClientTests(TestCase):
 		payload = mock_post.call_args.kwargs["json"]
 		self.assertEqual(payload["PhoneNumber"], "254712345678")
 		self.assertEqual(payload["Amount"], 125)
+		self.assertEqual(
+			payload["CallBackURL"],
+			"https://example.test/payments/mpesa/callback/",
+		)

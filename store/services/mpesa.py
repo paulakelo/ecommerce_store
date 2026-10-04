@@ -11,20 +11,21 @@ class MpesaError(Exception):
     pass
 
 
-def initiate_stk_push(phone_number, amount, account_reference):
+def initiate_stk_push(phone_number, amount, account_reference, callback_url=None):
     environment = settings.MPESA_ENVIRONMENT
     if environment not in {"sandbox", "production"}:
         raise MpesaError("MPESA_ENVIRONMENT must be sandbox or production.")
+    callback_url = settings.MPESA_CALLBACK_URL or callback_url
     required = (
         settings.MPESA_CONSUMER_KEY,
         settings.MPESA_CONSUMER_SECRET,
         settings.MPESA_SHORTCODE,
         settings.MPESA_PASSKEY,
-        settings.MPESA_CALLBACK_URL,
+        callback_url,
     )
     if not all(required):
         raise MpesaError("M-Pesa credentials and callback URL are not configured.")
-    if not settings.MPESA_CALLBACK_URL.startswith("https://"):
+    if not callback_url.startswith("https://"):
         raise MpesaError("MPESA_CALLBACK_URL must be a publicly reachable HTTPS URL.")
 
     amount = int(Decimal(amount).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
@@ -61,7 +62,7 @@ def initiate_stk_push(phone_number, amount, account_reference):
                 "PartyA": phone_number,
                 "PartyB": settings.MPESA_SHORTCODE,
                 "PhoneNumber": phone_number,
-                "CallBackURL": settings.MPESA_CALLBACK_URL,
+                "CallBackURL": callback_url,
                 "AccountReference": str(account_reference)[:12],
                 "TransactionDesc": f"Order {account_reference}",
             },
