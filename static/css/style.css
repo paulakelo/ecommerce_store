@@ -1499,3 +1499,215 @@
     background: var(--bs-primary) !important;
 }
 /*** copyright end ***/
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+}
+
+body {
+    min-width: 320px;
+}
+
+img,
+svg,
+video {
+    max-width: 100%;
+}
+
+.mobile-category-label {
+    margin-left: .35rem;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+header .navbar-brand,
+header .navbar-brand h1 {
+    white-space: nowrap;
+}
+
+header form input[type="search"] {
+    min-width: 0;
+}
+
+.site-footer a,
+.site-messages,
+.order-item-name,
+.checkout-page,
+#messages article {
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .category-nav {
+        min-width: 0;
+        flex-wrap: wrap;
+        justify-content: flex-start !important;
+        gap: .25rem !important;
+    }
+
+    .category-nav .category-nav-link {
+        padding: .35rem .45rem;
+        font-size: .85rem;
+        line-height: 1.2;
+        text-align: center;
+        white-space: normal !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #allCat {
+        top: 100%;
+        right: auto;
+        left: 0;
+        width: min(22rem, calc(100vw - 1.5rem));
+        max-height: 70vh;
+        overflow-y: auto;
+        border: 1px solid #e5e8e1;
+        box-shadow: 0 .5rem 1.5rem rgba(28, 39, 54, .14);
+    }
+
+    .nav-bar .row {
+        min-height: 3.5rem;
+    }
+
+    .nav-bar .navbar-toggler {
+        min-height: 44px;
+        padding: .4rem .25rem;
+    }
+
+    .cart-link {
+        display: grid;
+        min-width: 44px;
+        min-height: 44px;
+        place-items: center;
+    }
+}
+
+@media (max-width: 767.98px) {
+    header {
+        padding-top: .75rem !important;
+        padding-bottom: .75rem !important;
+    }
+
+    header .navbar-brand h1 {
+        font-size: clamp(1.25rem, 6vw, 1.6rem);
+    }
+
+    header .dropdown-toggle {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+    }
+
+    header form .btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: .5rem .85rem !important;
+    }
+
+    .container.py-5,
+    .container-fluid.shop.py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .checkout-card {
+        padding: 1rem;
+    }
+
+    .order-summary {
+        position: static;
+    }
+
+    .site-footer .container {
+        padding-top: 2.25rem !important;
+        padding-bottom: 2.25rem !important;
+    }
+
+    .back-to-top {
+        right: .75rem;
+        bottom: .75rem;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body {
+        font-size: .96rem;
+    }
+
+    .header-carousel .carousel-content {
+        padding: .75rem !important;
+    }
+
+    .header-carousel .carousel-content h2 {
+        font-size: clamp(1.5rem, 7vw, 2.15rem);
+    }
+
+    .store-product-card {
+        min-width: 0;
+    }
+
+    .product-card-info {
+        gap: .25rem;
+        padding: .6rem .6rem .55rem;
+    }
+
+    .product-name {
+        font-size: .82rem;
+    }
+
+    .product-price {
+        font-size: .84rem;
+    }
+
+    .store-product-card .product-item-add {
+        padding: 0 .6rem .6rem;
+    }
+
+    .add-cart-button {
+        min-height: 40px;
+        padding: .45rem .35rem;
+        font-size: .72rem;
+    }
+
+    .product-wishlist {
+        top: .45rem;
+        right: .45rem;
+    }
+
+    .wishlist-toggle {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+
+    .help-contact {
+        padding: 1rem;
+    }
+
+    .checkout-heading .btn {
+        align-self: stretch;
+        text-align: center;
+    }
+
+    .checkout-card .input-group-text {
+        padding-inline: .6rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

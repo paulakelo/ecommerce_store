@@ -1372,7 +1372,7 @@
             <h1 class="mb-4">{% if category %}{{ category.name }}{% else %}{% translate "Shop" %}{% endif %}</h1>
             <div class="row g-4">
                 {% for product in products %}
-                <div class="col-sm-6 col-lg-4 col-xl-3">
+                <div class="col-6 col-lg-4 col-xl-3">
                     <div class="product-item store-product-card h-100">
                         <form class="product-wishlist" action="{% url 'toggle_wishlist' slug=product.slug %}" method="post">
                             {% csrf_token %}

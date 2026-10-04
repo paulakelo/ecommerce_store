@@ -388,7 +388,7 @@
                 <div class="tab-content">
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row g-4">
-                            <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="col-6 col-md-4 col-xl-3">
                                 <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
                                     <div class="product-item-inner border rounded">
                                         <div class="product-item-inner-item">
@@ -432,7 +432,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="col-6 col-md-4 col-xl-3">
                                 <div class="product-item rounded wow fadeInUp" data-wow-delay="0.3s">
                                     <div class="product-item-inner border rounded">
                                         <div class="product-item-inner-item">
@@ -1292,7 +1292,7 @@
                     <div id="tab-1" class="tab-pane fade show p-0 active">
                         <div class="row g-4">
                             {% for product in products %}
-                            <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="col-6 col-md-4 col-xl-3">
                                 <div class="product-item store-product-card wow fadeInUp">
                                     <form class="product-wishlist" action="{% url 'toggle_wishlist' slug=product.slug %}" method="post">
                                         {% csrf_token %}

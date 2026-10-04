@@ -27,12 +27,12 @@
 
     <header class="container-fluid px-3 px-lg-5 py-3">
         <div class="row gx-3 gy-2 align-items-center">
-            <div class="col-4 col-lg-2">
+            <div class="col-7 col-lg-2 order-1">
                 <a href="{% url 'home' %}" class="navbar-brand p-0">
                     <h1 class="h2 text-primary m-0">Sokohewani</h1>
                 </a>
             </div>
-            <div class="col-8 col-lg-7">
+            <div class="col-12 col-lg-7 order-3 order-lg-2">
                 <form action="{% url 'home' %}" method="get" class="d-flex border rounded-pill">
                     <input class="form-control border-0 rounded-pill w-100 py-2 py-lg-3" type="search" name="q"
                         placeholder="Search for laptops, phones..." value="{{ query|default_if_none:'' }}">
@@ -42,7 +42,7 @@
                     </button>
                 </form>
             </div>
-            <div class="col-12 col-lg-3 d-flex align-items-center justify-content-end">
+            <div class="col-5 col-lg-3 order-2 order-lg-3 d-flex align-items-center justify-content-end">
                 <div class="dropdown">
                     <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown">
                         <small>{% if current_language == "sw" %}Kiswahili{% else %}English{% endif %}</small>
@@ -67,8 +67,10 @@
                 <nav class="navbar navbar-light position-relative p-0">
                     <button class="navbar-toggler border-0 fs-4 px-0 text-start" type="button"
                         data-bs-toggle="collapse" data-bs-target="#allCat"
+                        aria-expanded="false" aria-controls="allCat"
                         aria-label="{% translate 'Browse categories' %}">
                         <i class="fa fa-bars"></i>
+                        <span class="mobile-category-label">{% translate "Categories" %}</span>
                     </button>
                     <div class="collapse navbar-collapse rounded-bottom" id="allCat">
                         <div class="navbar-nav ms-auto py-0">
