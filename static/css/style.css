@@ -13,6 +13,33 @@
     visibility: visible;
     opacity: 1;
 }
+
+.skip-link {
+    position: fixed;
+    top: .75rem;
+    left: .75rem;
+    z-index: 100000;
+    padding: .65rem .9rem;
+    border-radius: 6px;
+    background: #202a1c;
+    color: #fff;
+    font-weight: 700;
+    transform: translateY(-150%);
+    transition: transform .2s ease;
+}
+
+.skip-link:focus {
+    color: #fff;
+    transform: translateY(0);
+}
+
+#main-content:focus { outline: none; }
+
+.site-messages {
+    display: grid;
+    gap: .5rem;
+    padding-top: 1rem;
+}
 /*** Spinner End ***/
 
 .back-to-top {
