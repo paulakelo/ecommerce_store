@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: ecommerce-store
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: ./start.sh
+    healthCheckPath: /
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ecommerce-store-db
+          property: connectionString
+      - key: MEDIA_ROOT
+        value: /tmp/ecommerce-media
+      - key: MPESA_ENVIRONMENT
+        value: sandbox
+
+databases:
+  - name: ecommerce-store-db
+    databaseName: ecommerce_store
+    user: ecommerce_store
+    region: frankfurt
+    plan: free
