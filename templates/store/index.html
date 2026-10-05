@@ -364,6 +364,67 @@
     </div>
     <!-- Trust Badges End -->
 
+    <!-- Quick Services Start -->
+    <section class="container-fluid py-5 bg-light" aria-labelledby="quick-services-title">
+        <div class="container">
+            <div class="mx-auto text-center mb-5" style="max-width: 760px;">
+                <h2 class="display-6 mb-3" id="quick-services-title">{% translate "Quick Services" %}</h2>
+                <p class="mb-0">{% translate "Add service add-ons to your order for a faster setup, easier delivery, and reliable after-sales support." %}</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <article class="bg-white rounded shadow-sm h-100 p-4 border-top border-4 border-primary">
+                        <h3 class="h5 mb-3">{% translate "Device Setup & Data Transfer" %}</h3>
+                        <p class="mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "New device setup, app installs, account sign-in, and data transfer." %}</p>
+                        <p class="mb-2"><strong>{% translate "Turnaround:" %}</strong> {% translate "45 to 90 minutes" %}</p>
+                        <p class="mb-4"><strong>{% translate "From:" %}</strong> KES 1,500</p>
+                        <a href="{% url 'help' %}" class="btn btn-primary rounded-pill px-4">{% translate "Book setup" %}</a>
+                    </article>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <article class="bg-white rounded shadow-sm h-100 p-4 border-top border-4 border-primary">
+                        <h3 class="h5 mb-3">{% translate "Same-Day Local Delivery" %}</h3>
+                        <p class="mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Priority dispatch within Eldoret and nearby areas." %}</p>
+                        <p class="mb-2"><strong>{% translate "Turnaround:" %}</strong> {% translate "2 to 6 hours after payment" %}</p>
+                        <p class="mb-4"><strong>{% translate "From:" %}</strong> KES 300</p>
+                        <a href="{% url 'shop' %}" class="btn btn-primary rounded-pill px-4">{% translate "Shop with same-day delivery" %}</a>
+                    </article>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <article class="bg-white rounded shadow-sm h-100 p-4 border-top border-4 border-primary">
+                        <h3 class="h5 mb-3">{% translate "Install-at-Home" %}</h3>
+                        <p class="mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Home installation for TVs, routers, and smart devices." %}</p>
+                        <p class="mb-2"><strong>{% translate "Turnaround:" %}</strong> {% translate "Scheduled same day or next day" %}</p>
+                        <p class="mb-4"><strong>{% translate "From:" %}</strong> KES 2,000</p>
+                        <a href="{% url 'help' %}" class="btn btn-primary rounded-pill px-4">{% translate "Book home install" %}</a>
+                    </article>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6 wow fadeInUp" data-wow-delay="0.4s">
+                    <article class="bg-white rounded shadow-sm h-100 p-4 border-top border-4 border-primary">
+                        <h3 class="h5 mb-3">{% translate "Extended Warranty Add-On" %}</h3>
+                        <p class="mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Extra protection for accidental faults after standard warranty." %}</p>
+                        <p class="mb-2"><strong>{% translate "Coverage:" %}</strong> {% translate "6, 12, or 24 months" %}</p>
+                        <p class="mb-4"><strong>{% translate "From:" %}</strong> KES 1,200</p>
+                        <a href="{% url 'shop' %}" class="btn btn-primary rounded-pill px-4">{% translate "View eligible products" %}</a>
+                    </article>
+                </div>
+                <div class="col-12 col-md-6 col-xl-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <article class="bg-white rounded shadow-sm h-100 p-4 border-top border-4 border-primary">
+                        <h3 class="h5 mb-3">{% translate "Remote Tech Support" %}</h3>
+                        <p class="mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Live troubleshooting for software, updates, and connectivity issues." %}</p>
+                        <p class="mb-2"><strong>{% translate "Session length:" %}</strong> {% translate "30 or 60 minutes" %}</p>
+                        <p class="mb-4"><strong>{% translate "From:" %}</strong> KES 800</p>
+                        <a href="{% url 'account' %}#messages" class="btn btn-primary rounded-pill px-4">{% translate "Request remote support" %}</a>
+                    </article>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'help' %}" class="btn btn-outline-primary rounded-pill px-4 py-2">{% translate "Need a custom package? Contact support" %}</a>
+            </div>
+        </div>
+    </section>
+    <!-- Quick Services End -->
+
     <!-- Our Products Start -->
     <div class="container-fluid product py-5">
         <div class="container py-5">
@@ -2125,7 +2186,7 @@
                         </div>
                         <div>
                             <h4 class="text-white">Mail Us</h4>
-                            <p class="mb-2"><a href=""></a></p>
+                            <p class="mb-2"><a href="{% url 'help' %}">Help Center</a></p>
                         </div>
                     </div>
                 </div>
@@ -2137,7 +2198,7 @@
                         </div>
                         <div>
                             <h4 class="text-white">Telephone</h4>
-                            <p class="mb-2"><a href="tel:000000000">000000000</a></p>
+                            <p class="mb-2"><a href="{% url 'help' %}">Request a callback</a></p>
                         </div>
                     </div>
                 </div>
@@ -2166,7 +2227,7 @@
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="footer-item d-flex flex-column">
                         <h4 class="text-primary mb-4">Customer Support</h4>
-                        <a href="mailto:ayutide@iuiu.ac.ug"><i class="fas fa-angle-right me-2"></i> Contact</a>
+                        <a href="{% url 'help' %}"><i class="fas fa-angle-right me-2"></i> Contact</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
