@@ -372,40 +372,29 @@
                 <p class="mb-0">{% translate "Add service add-ons to your order for a faster setup, easier delivery, and reliable after-sales support." %}</p>
             </div>
             <div class="row g-3">
-                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.1s">
-                    <article class="store-service-card h-100">
-                        <h3 class="store-service-title">{% translate "Device Setup & Data Transfer" %}</h3>
-                        <p class="store-service-line mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "New device setup, app installs, account sign-in, and data transfer." %}</p>
-                        <p class="store-service-line mb-2"><strong>{% translate "Turnaround:" %}</strong> {% translate "45 to 90 minutes" %}</p>
-                        <div class="store-service-footer">
-                            <p class="store-service-price mb-0"><strong>{% translate "From:" %}</strong> KES 1,500</p>
-                            <a href="{% url 'help' %}" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Book setup" %}</a>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="col-12 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
                     <article class="store-service-card h-100">
                         <h3 class="store-service-title">{% translate "Same-Day Local Delivery" %}</h3>
                         <p class="store-service-line mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Priority dispatch within Eldoret and nearby areas." %}</p>
                         <p class="store-service-line mb-2"><strong>{% translate "Turnaround:" %}</strong> {% translate "2 to 6 hours after payment" %}</p>
                         <div class="store-service-footer">
                             <p class="store-service-price mb-0"><strong>{% translate "From:" %}</strong> KES 300</p>
-                            <a href="{% url 'shop' %}" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Same-day delivery" %}</a>
+                            <a href="{% url 'help' %}#delivery" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Delivery details" %}</a>
                         </div>
                     </article>
                 </div>
-                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="col-12 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
                     <article class="store-service-card h-100">
                         <h3 class="store-service-title">{% translate "Install-at-Home" %}</h3>
                         <p class="store-service-line mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Home installation for TVs, routers, and smart devices." %}</p>
                         <p class="store-service-line mb-2"><strong>{% translate "Turnaround:" %}</strong> {% translate "Scheduled same day or next day" %}</p>
                         <div class="store-service-footer">
                             <p class="store-service-price mb-0"><strong>{% translate "From:" %}</strong> KES 2,000</p>
-                            <a href="{% url 'help' %}" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Book install" %}</a>
+                            <a href="{% url 'help' %}#contact" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Book install" %}</a>
                         </div>
                     </article>
                 </div>
-                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="col-12 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
                     <article class="store-service-card h-100">
                         <h3 class="store-service-title">{% translate "Extended Warranty Add-On" %}</h3>
                         <p class="store-service-line mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Extra protection for accidental faults after standard warranty." %}</p>
@@ -416,20 +405,20 @@
                         </div>
                     </article>
                 </div>
-                <div class="col-12 col-md-6 col-xl-4 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="col-12 col-md-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
                     <article class="store-service-card h-100">
                         <h3 class="store-service-title">{% translate "Remote Tech Support" %}</h3>
                         <p class="store-service-line mb-2"><strong>{% translate "Includes:" %}</strong> {% translate "Live troubleshooting for software, updates, and connectivity issues." %}</p>
                         <p class="store-service-line mb-2"><strong>{% translate "Session length:" %}</strong> {% translate "30 or 60 minutes" %}</p>
                         <div class="store-service-footer">
                             <p class="store-service-price mb-0"><strong>{% translate "From:" %}</strong> KES 800</p>
-                            <a href="{% url 'account' %}#messages" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Request support" %}</a>
+                            <a href="{% url 'help' %}#contact" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "Request support" %}</a>
                         </div>
                     </article>
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="{% url 'help' %}" class="btn btn-outline-primary rounded-pill px-4 py-2">{% translate "Need a custom package? Contact support" %}</a>
+                <a href="{% url 'help' %}#contact" class="btn btn-outline-primary rounded-pill px-4 py-2">{% translate "Need a custom package? Contact support" %}</a>
             </div>
         </div>
     </section>

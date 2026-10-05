@@ -297,3 +297,75 @@ msgstr "Karibu Sokohewani"
 
 msgid "Your account is ready. Contact support here and check back for order updates and promotions."
 msgstr "Akaunti yako iko tayari. Wasiliana na huduma kwa wateja hapa na urudi kupata masasisho ya maagizo na matangazo."
+
+msgid "Quick Services"
+msgstr "Huduma za Haraka"
+
+msgid "Add service add-ons to your order for a faster setup, easier delivery, and reliable after-sales support."
+msgstr "Ongeza huduma za nyongeza kwenye agizo lako kwa uwasilishaji rahisi, huduma ya haraka na usaidizi wa kuaminika baada ya mauzo."
+
+msgid "Same-Day Local Delivery"
+msgstr "Uwasilishaji wa Siku Hiyohiyo wa Eneo la Karibu"
+
+msgid "Includes:"
+msgstr "Inajumuisha:"
+
+msgid "Priority dispatch within Eldoret and nearby areas."
+msgstr "Kutumwa kwa kipaumbele ndani ya Eldoret na maeneo ya karibu."
+
+msgid "Turnaround:"
+msgstr "Muda wa kukamilisha:"
+
+msgid "2 to 6 hours after payment"
+msgstr "Saa 2 hadi 6 baada ya malipo"
+
+msgid "From:"
+msgstr "Kuanzia:"
+
+msgid "Delivery details"
+msgstr "Maelezo ya uwasilishaji"
+
+msgid "Install-at-Home"
+msgstr "Usakinishaji Nyumbani"
+
+msgid "Home installation for TVs, routers, and smart devices."
+msgstr "Usakinishaji wa nyumbani wa TV, router na vifaa mahiri."
+
+msgid "Scheduled same day or next day"
+msgstr "Umepangwa siku hiyohiyo au siku inayofuata"
+
+msgid "Book install"
+msgstr "Weka miadi ya usakinishaji"
+
+msgid "Extended Warranty Add-On"
+msgstr "Nyongeza ya Dhamana Iliyoongezwa"
+
+msgid "Extra protection for accidental faults after standard warranty."
+msgstr "Ulinzi wa ziada kwa hitilafu za bahati mbaya baada ya dhamana ya kawaida."
+
+msgid "Coverage:"
+msgstr "Ulinzi:"
+
+msgid "6, 12, or 24 months"
+msgstr "Miezi 6, 12 au 24"
+
+msgid "View warranty"
+msgstr "Tazama dhamana"
+
+msgid "Remote Tech Support"
+msgstr "Usaidizi wa Kiufundi wa Mbali"
+
+msgid "Live troubleshooting for software, updates, and connectivity issues."
+msgstr "Utatuzi wa matatizo wa moja kwa moja kwa programu, masasisho na changamoto za muunganisho."
+
+msgid "Session length:"
+msgstr "Muda wa kikao:"
+
+msgid "30 or 60 minutes"
+msgstr "Dakika 30 au 60"
+
+msgid "Request support"
+msgstr "Omba usaidizi"
+
+msgid "Need a custom package? Contact support"
+msgstr "Unahitaji kifurushi maalum? Wasiliana na usaidizi"

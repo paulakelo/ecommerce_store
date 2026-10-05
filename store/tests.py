@@ -117,6 +117,15 @@ class StorefrontWorkflowTests(TestCase):
 		)
 		self.assertEqual(self.client.session["cart"][str(self.product.pk)], 1)
 
+	def test_homepage_quick_services_use_live_links_and_removed_setup_card(self):
+		response = self.client.get(reverse("home"))
+
+		self.assertNotContains(response, "Device Setup")
+		self.assertContains(response, reverse("help") + "#delivery")
+		self.assertContains(response, reverse("help") + "#contact")
+		self.assertContains(response, reverse("shop"))
+		self.assertNotContains(response, reverse("account") + "#messages")
+
 	def test_homepage_search_matches_product_name_and_description(self):
 		laptop = Product.objects.create(
 			category=self.category,
@@ -593,6 +602,9 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertContains(response, 'aria-label="Lugha: Kiswahili"')
 		self.assertContains(response, 'placeholder="Tafuta kompyuta, simu..."')
 		self.assertContains(response, 'aria-current="true"')
+		home_response = self.client.get(reverse("home"))
+		self.assertContains(home_response, "Huduma za Haraka")
+		self.assertContains(home_response, "Maelezo ya uwasilishaji")
 
 		response = self.client.post(
 			reverse("set_language"), {"language": "en", "next": reverse("home")}
