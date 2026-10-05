@@ -89,7 +89,13 @@
 
                 <div class="col-lg-5">
                     <aside class="checkout-card order-summary" aria-labelledby="order-summary-title"
-                        data-subtotal="{{ subtotal|floatformat:2 }}" data-update-url="{% url 'cart' %}">
+                        data-subtotal="{{ subtotal|floatformat:2 }}" data-update-url="{% url 'cart' %}"
+                        data-message-choose-county="{% translate 'Choose county' %}"
+                        data-message-saving="{% translate 'Saving quantities…' %}"
+                        data-message-quantities-saved="{% translate 'Quantities saved.' %}"
+                        data-message-unable-to-update="{% translate 'Unable to update quantities.' %}"
+                        data-message-could-not-save="{% translate 'Could not save quantities. Please try again.' %}"
+                        data-message-quantity-range="{% blocktranslate with minimum='__minimum__' maximum='__maximum__' %}Choose a quantity between {{ minimum }} and {{ maximum }}.{% endblocktranslate %}">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h2 class="h5 mb-0" id="order-summary-title">{% translate "Your order" %}</h2>
                             <span class="text-muted small">{{ cart_items|length }} {% translate "item(s)" %}</span>

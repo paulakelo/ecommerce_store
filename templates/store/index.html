@@ -1,6 +1,7 @@
 {% extends "store/base.html" %}
 {% load static i18n %}
 {% get_current_language as current_language %}
+{% block title %}Sokohewani | {% translate "Electronics in Eldoret" %}{% endblock %}
 <!DOCTYPE html>
 <html lang="{{ current_language }}">
 
@@ -299,8 +300,8 @@
                     <div class="d-inline-flex align-items-center">
                         <i class="fas fa-mobile-alt fa-2x text-primary"></i>
                         <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Pay with M-Pesa</h6>
-                            <p class="mb-0">Secure mobile checkout</p>
+                            <h6 class="text-uppercase mb-2">{% translate "Pay with M-Pesa" %}</h6>
+                            <p class="mb-0">{% translate "Secure mobile checkout" %}</p>
                         </div>
                     </div>
                 </div>
@@ -310,8 +311,8 @@
                     <div class="d-flex align-items-center">
                         <i class="fas fa-truck fa-2x text-primary"></i>
                         <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Delivery across Kenya</h6>
-                            <p class="mb-0">Delivery fees shown at checkout</p>
+                            <h6 class="text-uppercase mb-2">{% translate "Delivery across Kenya" %}</h6>
+                            <p class="mb-0">{% translate "Delivery fees shown at checkout" %}</p>
                         </div>
                     </div>
                 </div>
@@ -321,8 +322,8 @@
                     <div class="d-flex align-items-center">
                         <i class="fas fa-language fa-2x text-primary"></i>
                         <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">English &amp; Kiswahili</h6>
-                            <p class="mb-0">Shop in the language you prefer</p>
+                            <h6 class="text-uppercase mb-2">{% translate "English and Kiswahili" %}</h6>
+                            <p class="mb-0">{% translate "Shop in the language you prefer" %}</p>
                         </div>
                     </div>
                 </div>

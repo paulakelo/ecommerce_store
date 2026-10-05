@@ -1,431 +1,859 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ecommerce_store 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-05 13:08+0000\n"
 "PO-Revision-Date: 2026-09-30 00:00+0000\n"
 "Last-Translator: Store Maintainers\n"
 "Language-Team: Kiswahili\n"
+"Language: sw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sw\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Home"
-msgstr "Nyumbani"
-
-msgid "Language"
-msgstr "Lugha"
-
-msgid "Search"
-msgstr "Tafuta"
-
-msgid "Search for laptops, phones..."
-msgstr "Tafuta kompyuta, simu..."
-
-msgid "Browse categories"
-msgstr "Vinjari aina za bidhaa"
-
-msgid "Categories"
-msgstr "Aina za bidhaa"
-
-msgid "Shop by category"
-msgstr "Nunua kulingana na aina"
-
-msgid "Cart"
-msgstr "Kikapu"
-
-msgid "Shop"
-msgstr "Duka"
-
-msgid "Account"
-msgstr "Akaunti"
-
-msgid "Single Page"
-msgstr "Ukurasa wa bidhaa"
-
-msgid "Pages"
-msgstr "Kurasa"
-
-msgid "Cart Page"
-msgstr "Kikapu"
-
-msgid "Checkout"
-msgstr "Malipo"
-
-msgid "Contact"
-msgstr "Wasiliana"
-
-msgid "Our Products"
-msgstr "Bidhaa Zetu"
-
-msgid "All Products"
-msgstr "Bidhaa Zote"
-
-msgid "Add to cart"
-msgstr "Ongeza kwenye kikapu"
-
-msgid "Product"
-msgstr "Bidhaa"
-
-msgid "Price"
-msgstr "Bei"
-
-msgid "Quantity"
-msgstr "Idadi"
-
-msgid "Total"
-msgstr "Jumla"
-
-msgid "Remove"
-msgstr "Ondoa"
-
-msgid "Update cart"
-msgstr "Sasisha kikapu"
-
-msgid "Subtotal"
-msgstr "Jumla ndogo"
-
-msgid "Proceed to checkout"
-msgstr "Endelea kwenye malipo"
-
-msgid "Your cart is empty."
-msgstr "Kikapu chako hakina bidhaa."
-
-msgid "Continue shopping"
-msgstr "Endelea kununua"
-
-msgid "We will send an M-Pesa payment prompt to this number."
-msgstr "Tutatumia ombi la malipo ya M-Pesa kwenye nambari hii."
-
-msgid "Delivery and payment"
-msgstr "Uwasilishaji na malipo"
-
-msgid "Checkout with M-Pesa"
-msgstr "Lipa kwa M-Pesa"
-
-msgid "Total due"
-msgstr "Jumla ya kulipa"
-
-msgid "Pay with M-Pesa"
-msgstr "Lipa kwa M-Pesa"
-
-msgid "First name"
-msgstr "Jina la kwanza"
-
-msgid "Last name"
-msgstr "Jina la ukoo"
-
-msgid "M-Pesa phone number"
-msgstr "Nambari ya simu ya M-Pesa"
-
-msgid "M-Pesa payments must total a whole number of Kenya shillings."
-msgstr "Jumla ya malipo ya M-Pesa lazima iwe idadi kamili ya shilingi za Kenya."
-
-msgid "Delivery location"
-msgstr "Mahali pa kuwasilisha"
-
-msgid "Enter a Kenyan M-Pesa number, such as 0712345678 or 254712345678."
-msgstr "Weka nambari ya M-Pesa ya Kenya, kama 0712345678 au 254712345678."
-
-msgid "Quantity exceeds available stock."
-msgstr "Kiasi kinazidi bidhaa zilizopo."
-
-msgid "Enter a valid product quantity."
-msgstr "Weka idadi sahihi ya bidhaa."
-
-msgid "A product in your cart is no longer available."
-msgstr "Bidhaa moja kwenye kikapu chako haipatikani tena."
-
-msgid "Product quantities must be greater than zero."
-msgstr "Idadi ya bidhaa lazima iwe zaidi ya sifuri."
-
-msgid "That product is not available."
-msgstr "Bidhaa hiyo haipatikani."
-
-msgid "Choose a quantity greater than zero."
-msgstr "Chagua kiasi zaidi ya sufuri."
-
-msgid "Product added to your cart."
-msgstr "Bidhaa imeongezwa kwenye kikapu chako."
-
-msgid "We could not start the M-Pesa payment. Your order %(order_id)s was saved; please try again or contact support."
-msgstr "Hatukuweza kuanzisha malipo ya M-Pesa. Agizo lako %(order_id)s limehifadhiwa; jaribu tena au wasiliana na usaidizi."
-
-msgid "Payment request sent. Enter your M-Pesa PIN on your phone to complete order %(order_id)s."
-msgstr "Ombi la malipo limetumwa. Weka PIN yako ya M-Pesa kwenye simu kukamilisha agizo %(order_id)s."
-
-msgid "My Dashboard"
-msgstr "Dashibodi Yangu"
-
-msgid "My Account"
-msgstr "Akaunti Yangu"
-
-msgid "My Orders"
-msgstr "Maagizo Yangu"
-
-msgid "Account Settings"
-msgstr "Mipangilio ya Akaunti"
-
-msgid "Log Out"
-msgstr "Toka"
-
-msgid "Login"
-msgstr "Ingia"
-
-msgid "Create Account"
-msgstr "Fungua Akaunti"
-
+#: store/forms.py:14
 msgid "Username"
 msgstr "Jina la mtumiaji"
 
+#: store/forms.py:17
 msgid "Password"
 msgstr "Nenosiri"
 
-msgid "Password confirmation"
-msgstr "Thibitisha nenosiri"
+#: store/forms.py:23 store/forms.py:52 store/forms.py:63 store/forms.py:112
+msgid "First name"
+msgstr "Jina la kwanza"
 
+#: store/forms.py:28 store/forms.py:55 store/forms.py:64 store/forms.py:115
+msgid "Last name"
+msgstr "Jina la ukoo"
+
+#: store/forms.py:33 store/forms.py:57 store/forms.py:65
 msgid "Email address"
 msgstr "Anwani ya barua pepe"
 
-msgid "Signed in as"
-msgstr "Umeingia kama"
-
-msgid "Save changes"
-msgstr "Hifadhi mabadiliko"
-
-msgid "Order"
-msgstr "Agizo"
-
-msgid "Date"
-msgstr "Tarehe"
-
-msgid "Payment"
-msgstr "Malipo"
-
-msgid "No orders yet."
-msgstr "Bado huna maagizo."
-
-msgid "New to Electro?"
-msgstr "Je, wewe ni mteja mpya wa Electro?"
-
-msgid "Already registered?"
-msgstr "Tayari umesajiliwa?"
-
-msgid "Your account has been created."
-msgstr "Akaunti yako imefunguliwa."
-
-msgid "Your account details have been updated."
-msgstr "Maelezo ya akaunti yako yamesasishwa."
-
-msgid "Shipping address"
-msgstr "Anwani ya usafirishaji"
-
+#: store/forms.py:76 store/forms.py:80 store/forms.py:130 store/forms.py:133
+#: templates/store/cart.html:70
 msgid "County"
 msgstr "Kaunti"
 
+#: store/forms.py:78 store/forms.py:131 templates/store/cart.html:67
 msgid "Select your county"
 msgstr "Chagua kaunti yako"
 
+#: store/forms.py:86 store/forms.py:140
 msgid "Town, estate, street and nearest landmark"
 msgstr "Mji, eneo, mtaa na alama ya karibu"
 
-msgid "Language settings"
-msgstr "Mipangilio ya lugha"
-
-msgid "Preferred language"
-msgstr "Lugha unayopendelea"
-
-msgid "Save language"
-msgstr "Hifadhi lugha"
-
+#: store/forms.py:104
 msgid "Enter the rest of your shipping address."
 msgstr "Weka sehemu iliyobaki ya anwani yako ya usafirishaji."
 
+#: store/forms.py:106
 msgid "Choose a county for your shipping address."
 msgstr "Chagua kaunti ya anwani yako ya usafirishaji."
 
-msgid "Messages"
-msgstr "Ujumbe"
+#: store/forms.py:119
+msgid "M-Pesa phone number"
+msgstr "Nambari ya simu ya M-Pesa"
 
-msgid "Chat with customer support and receive account, order, and promotion updates here."
-msgstr "Piga gumzo na huduma kwa wateja na upokee masasisho ya akaunti, maagizo na matangazo hapa."
+#: store/forms.py:154
+msgid "Enter a Kenyan M-Pesa number, such as 0712345678 or 254712345678."
+msgstr "Weka nambari ya M-Pesa ya Kenya, kama 0712345678 au 254712345678."
 
-msgid "You"
-msgstr "Wewe"
-
-msgid "Customer support"
-msgstr "Huduma kwa wateja"
-
-msgid "Order update"
-msgstr "Taarifa ya agizo"
-
-msgid "Promotion"
-msgstr "Tangazo"
-
-msgid "System message"
-msgstr "Ujumbe wa mfumo"
-
-msgid "No messages yet."
-msgstr "Bado hakuna ujumbe."
-
-msgid "Send a message to customer support"
-msgstr "Tuma ujumbe kwa huduma kwa wateja"
-
-msgid "Send message"
-msgstr "Tuma ujumbe"
-
+#: store/forms.py:161
 msgid "Message"
 msgstr "Ujumbe"
 
-msgid "Your message has been sent to customer support."
-msgstr "Ujumbe wako umetumwa kwa huduma kwa wateja."
+#: store/views.py:48 templates/store/account.html:77
+msgid "Order update"
+msgstr "Taarifa ya agizo"
 
-msgid "We could not start payment for your order. Please contact support for help."
-msgstr "Hatukuweza kuanzisha malipo ya agizo lako. Tafadhali wasiliana na huduma kwa wateja upate msaada."
+#: store/views.py:135
+msgid "Enter a valid product quantity."
+msgstr "Weka idadi sahihi ya bidhaa."
 
+#: store/views.py:142
+msgid "A product in your cart is no longer available."
+msgstr "Bidhaa moja kwenye kikapu chako haipatikani tena."
+
+#: store/views.py:147
+msgid "Product quantities must be greater than zero."
+msgstr "Idadi ya bidhaa lazima iwe zaidi ya sifuri."
+
+#: store/views.py:154 store/views.py:310
+msgid "Quantity exceeds available stock."
+msgstr "Kiasi kinazidi bidhaa zilizopo."
+
+#: store/views.py:173 templates/store/cart.html:165
+msgid "Your cart is empty."
+msgstr "Kikapu chako hakina bidhaa."
+
+#: store/views.py:231
+msgid "M-Pesa payments must total a whole number of Kenya shillings."
+msgstr ""
+"Jumla ya malipo ya M-Pesa lazima iwe idadi kamili ya shilingi za Kenya."
+
+#: store/views.py:275
+msgid ""
+"We could not start payment for your order. Please contact support for help."
+msgstr ""
+"Hatukuweza kuanzisha malipo ya agizo lako. Tafadhali wasiliana na huduma kwa "
+"wateja upate msaada."
+
+#: store/views.py:279
+#, python-format
+msgid ""
+"We could not start the M-Pesa payment. Your order %(order_id)s was saved; "
+"please try again or contact support."
+msgstr ""
+"Hatukuweza kuanzisha malipo ya M-Pesa. Agizo lako %(order_id)s "
+"limehifadhiwa; jaribu tena au wasiliana na usaidizi."
+
+#: store/views.py:289
 msgid "Your order is awaiting M-Pesa payment confirmation."
 msgstr "Agizo lako linasubiri uthibitisho wa malipo ya M-Pesa."
 
-msgid "Payment received. Your order is confirmed."
-msgstr "Malipo yamepokelewa. Agizo lako limethibitishwa."
+#: store/views.py:292
+#, python-format
+msgid ""
+"Payment request sent. Enter your M-Pesa PIN on your phone to complete order "
+"%(order_id)s."
+msgstr ""
+"Ombi la malipo limetumwa. Weka PIN yako ya M-Pesa kwenye simu kukamilisha "
+"agizo %(order_id)s."
 
-msgid "M-Pesa payment for your order was not completed."
-msgstr "Malipo ya M-Pesa ya agizo lako hayakukamilika."
+#: store/views.py:302
+msgid "That product is not available."
+msgstr "Bidhaa hiyo haipatikani."
 
+#: store/views.py:305
+msgid "Choose a quantity greater than zero."
+msgstr "Chagua kiasi zaidi ya sufuri."
+
+#: store/views.py:314
+msgid "Product added to your cart."
+msgstr "Bidhaa imeongezwa kwenye kikapu chako."
+
+#: store/views.py:335
 msgid "Welcome to Sokohewani"
 msgstr "Karibu Sokohewani"
 
-msgid "Your account is ready. Contact support here and check back for order updates and promotions."
-msgstr "Akaunti yako iko tayari. Wasiliana na huduma kwa wateja hapa na urudi kupata masasisho ya maagizo na matangazo."
+#: store/views.py:336
+msgid ""
+"Your account is ready. Contact support here and check back for order updates "
+"and promotions."
+msgstr ""
+"Akaunti yako iko tayari. Wasiliana na huduma kwa wateja hapa na urudi kupata "
+"masasisho ya maagizo na matangazo."
 
-msgid "Quick Services"
-msgstr "Huduma za Haraka"
+#: store/views.py:339
+msgid "Your account has been created."
+msgstr "Akaunti yako imefunguliwa."
 
-msgid "Add service add-ons to your order for a faster setup, easier delivery, and reliable after-sales support."
-msgstr "Ongeza huduma za nyongeza kwenye agizo lako kwa uwasilishaji rahisi, huduma ya haraka na usaidizi wa kuaminika baada ya mauzo."
+#: store/views.py:355 templates/store/account.html:76
+msgid "Customer support"
+msgstr "Huduma kwa wateja"
 
-msgid "Same-Day Local Delivery"
-msgstr "Uwasilishaji wa Siku Hiyohiyo wa Eneo la Karibu"
+#: store/views.py:358
+msgid "Your message has been sent to customer support."
+msgstr "Ujumbe wako umetumwa kwa huduma kwa wateja."
 
-msgid "Includes:"
-msgstr "Inajumuisha:"
+#: store/views.py:400
+msgid "Your account details have been updated."
+msgstr "Maelezo ya akaunti yako yamesasishwa."
 
-msgid "Priority dispatch within Nairobi and nearby areas."
-msgstr "Kutumwa kwa kipaumbele ndani ya Nairobi na maeneo ya karibu."
+#: store/views.py:433
+msgid "Product removed from your wishlist."
+msgstr "Bidhaa imeondolewa kwenye orodha ya matamanio."
 
-msgid "Turnaround:"
-msgstr "Muda wa kukamilisha:"
+#: store/views.py:437
+msgid "Product added to your wishlist."
+msgstr "Bidhaa imeongezwa kwenye orodha ya matamanio."
 
-msgid "2 to 6 hours after payment"
-msgstr "Saa 2 hadi 6 baada ya malipo"
+#: store/views.py:439
+msgid "This product is no longer available."
+msgstr "Bidhaa hii haipatikani tena."
 
-msgid "From:"
-msgstr "Kuanzia:"
+#: store/views.py:441
+msgid "Invalid wishlist action."
+msgstr "Ombi la orodha ya matamanio si sahihi."
 
-msgid "Delivery details"
-msgstr "Maelezo ya uwasilishaji"
+#: store/views.py:482
+msgid "Payment received. Your order is confirmed."
+msgstr "Malipo yamepokelewa. Agizo lako limethibitishwa."
 
-msgid "Install-at-Home"
-msgstr "Usakinishaji Nyumbani"
+#: store/views.py:484
+msgid "M-Pesa payment for your order was not completed."
+msgstr "Malipo ya M-Pesa ya agizo lako hayakukamilika."
 
-msgid "Home installation for TVs, routers, and smart devices."
-msgstr "Usakinishaji wa nyumbani wa TV, router na vifaa mahiri."
+#: templates/store/account.html:5 templates/store/account.html:8
+#: templates/store/includes/account_menu.html:9
+msgid "My Account"
+msgstr "Akaunti Yangu"
 
-msgid "Scheduled same day or next day"
-msgstr "Umepangwa siku hiyohiyo au siku inayofuata"
+#: templates/store/account.html:11
+#: templates/store/includes/account_menu.html:13
+msgid "Account Settings"
+msgstr "Mipangilio ya Akaunti"
 
-msgid "Book install"
-msgstr "Weka miadi ya usakinishaji"
+#: templates/store/account.html:12
+msgid "Signed in as"
+msgstr "Umeingia kama"
 
-msgid "Extended Warranty Add-On"
-msgstr "Nyongeza ya Dhamana Iliyoongezwa"
+#: templates/store/account.html:17 templates/store/cart.html:59
+msgid "Shipping address"
+msgstr "Anwani ya usafirishaji"
 
-msgid "Extra protection for accidental faults after standard warranty."
-msgstr "Ulinzi wa ziada kwa hitilafu za bahati mbaya baada ya dhamana ya kawaida."
+#: templates/store/account.html:23
+msgid "Save changes"
+msgstr "Hifadhi mabadiliko"
 
-msgid "Coverage:"
-msgstr "Ulinzi:"
+#: templates/store/account.html:26
+msgid "Language settings"
+msgstr "Mipangilio ya lugha"
 
-msgid "6, 12, or 24 months"
-msgstr "Miezi 6, 12 au 24"
+#: templates/store/account.html:30
+msgid "Preferred language"
+msgstr "Lugha unayopendelea"
 
-msgid "View warranty"
-msgstr "Tazama dhamana"
+#: templates/store/account.html:35
+msgid "Save language"
+msgstr "Hifadhi lugha"
 
-msgid "Remote Tech Support"
-msgstr "Usaidizi wa Kiufundi wa Mbali"
+#: templates/store/account.html:40
+#: templates/store/includes/account_menu.html:16
+msgid "Log Out"
+msgstr "Toka"
 
-msgid "Live troubleshooting for software, updates, and connectivity issues."
-msgstr "Utatuzi wa matatizo wa moja kwa moja kwa programu, masasisho na changamoto za muunganisho."
+#: templates/store/account.html:44
+#: templates/store/includes/account_menu.html:11
+msgid "My Orders"
+msgstr "Maagizo Yangu"
 
-msgid "Session length:"
-msgstr "Muda wa kikao:"
+#: templates/store/account.html:48 templates/store/account.html:84
+msgid "Order"
+msgstr "Agizo"
 
-msgid "30 or 60 minutes"
-msgstr "Dakika 30 au 60"
+#: templates/store/account.html:48
+msgid "Date"
+msgstr "Tarehe"
 
-msgid "Request support"
-msgstr "Omba usaidizi"
+#: templates/store/account.html:48 templates/store/cart.html:141
+msgid "Total"
+msgstr "Jumla"
 
-msgid "Need a custom package? Contact support"
-msgstr "Unahitaji kifurushi maalum? Wasiliana na usaidizi"
+#: templates/store/account.html:48
+msgid "Payment"
+msgstr "Malipo"
 
+#: templates/store/account.html:62
+msgid "No orders yet."
+msgstr "Bado huna maagizo."
+
+#: templates/store/account.html:67
+#: templates/store/includes/account_menu.html:10
+msgid "Messages"
+msgstr "Ujumbe"
+
+#: templates/store/account.html:68
+msgid ""
+"Chat with customer support and receive account, order, and promotion updates "
+"here."
+msgstr ""
+"Piga gumzo na huduma kwa wateja na upokee masasisho ya akaunti, maagizo na "
+"matangazo hapa."
+
+#: templates/store/account.html:76
+msgid "You"
+msgstr "Wewe"
+
+#: templates/store/account.html:78
+msgid "Promotion"
+msgstr "Tangazo"
+
+#: templates/store/account.html:79
+msgid "System message"
+msgstr "Ujumbe wa mfumo"
+
+#: templates/store/account.html:87
+msgid "No messages yet."
+msgstr "Bado hakuna ujumbe."
+
+#: templates/store/account.html:93
+msgid "Send a message to customer support"
+msgstr "Tuma ujumbe kwa huduma kwa wateja"
+
+#: templates/store/account.html:96
+msgid "Send message"
+msgstr "Tuma ujumbe"
+
+#: templates/store/account.html:100
+#: templates/store/includes/account_menu.html:12
+msgid "Wishlist"
+msgstr "Orodha ya matamanio"
+
+#: templates/store/account.html:122 templates/store/cart.html:125
+msgid "Remove"
+msgstr "Ondoa"
+
+#: templates/store/account.html:130
+msgid "Your wishlist is empty."
+msgstr "Orodha yako ya matamanio haina bidhaa."
+
+#: templates/store/base.html:8 templates/store/index.html:4
+msgid "Electronics in Eldoret"
+msgstr "Elektroniki Eldoret"
+
+#: templates/store/base.html:21
+msgid "Skip to content"
+msgstr "Ruka hadi kwenye maudhui"
+
+#: templates/store/base.html:24
+msgid "Loading..."
+msgstr "Inapakia..."
+
+#: templates/store/base.html:38
+msgid "Search for laptops, phones..."
+msgstr "Tafuta kompyuta, simu..."
+
+#: templates/store/base.html:40
+msgid "Search"
+msgstr "Tafuta"
+
+#: templates/store/base.html:48
+msgid "Language"
+msgstr "Lugha"
+
+#: templates/store/base.html:84
+msgid "Browse categories"
+msgstr "Vinjari aina za bidhaa"
+
+#: templates/store/base.html:86
+msgid "Categories"
+msgstr "Aina za bidhaa"
+
+#: templates/store/base.html:98
+msgid "No categories available."
+msgstr "Hakuna aina za bidhaa zinazopatikana."
+
+#: templates/store/base.html:106
+msgid "Shop by category"
+msgstr "Nunua kulingana na aina"
+
+#: templates/store/base.html:114 templates/store/base.html:160
+msgid "Cart"
+msgstr "Kikapu"
+
+#: templates/store/base.html:114
+msgid "items"
+msgstr "bidhaa"
+
+#: templates/store/base.html:139
 msgid "Simple, dependable shopping for everyday essentials."
 msgstr "Ununuzi rahisi na wa kuaminika wa mahitaji ya kila siku."
 
+#: templates/store/base.html:143
 msgid "Customer care"
 msgstr "Huduma kwa wateja"
 
+#: templates/store/base.html:145
 msgid "Service hours"
 msgstr "Saa za huduma"
 
+#: templates/store/base.html:146
 msgid "Monday–Friday (excluding public holidays): 9AM–5:30PM"
 msgstr "Jumatatu–Ijumaa (isipokuwa sikukuu za umma): 9AM–5:30PM"
 
+#: templates/store/base.html:146
 msgid "Saturday: 9AM–12:30PM"
 msgstr "Jumamosi: 9AM–12:30PM"
 
+#: templates/store/base.html:147
 msgid "Contact support"
 msgstr "Wasiliana na usaidizi"
 
+#: templates/store/base.html:149
 msgid "Footer customer care links"
 msgstr "Viungo vya huduma kwa wateja vya sehemu ya chini"
 
+#: templates/store/base.html:150
 msgid "Help centre"
 msgstr "Kituo cha msaada"
 
+#: templates/store/base.html:151
 msgid "Delivery & payment"
 msgstr "Uwasilishaji na malipo"
 
+#: templates/store/base.html:152
 msgid "My orders"
 msgstr "Maagizo yangu"
 
+#: templates/store/base.html:156 templates/store/index.html:175
+#: templates/store/shop.html:4 templates/store/shop.html:177
+#: templates/store/shop.html:1374 templates/store/single.html:178
+msgid "Shop"
+msgstr "Duka"
+
+#: templates/store/base.html:157
 msgid "Footer shop links"
 msgstr "Viungo vya duka vya sehemu ya chini"
 
+#: templates/store/base.html:158 templates/store/index.html:174
+#: templates/store/product_detail.html:8 templates/store/shop.html:176
+#: templates/store/single.html:177 templates/store/single.html:242
+msgid "Home"
+msgstr "Nyumbani"
+
+#: templates/store/base.html:159
 msgid "Shop all"
 msgstr "Bidhaa zote"
 
+#: templates/store/base.html:164
 msgid "Need help?"
 msgstr "Unahitaji msaada?"
 
+#: templates/store/base.html:165
 msgid "Footer help links"
 msgstr "Viungo vya msaada vya sehemu ya chini"
 
+#: templates/store/base.html:166 templates/store/help.html:15
 msgid "Frequently asked questions"
 msgstr "Maswali yanayoulizwa mara kwa mara"
 
+#: templates/store/base.html:167
 msgid "M-Pesa payments"
 msgstr "Malipo ya M-Pesa"
 
+#: templates/store/base.html:168 templates/store/cart.html:28
 msgid "Contact details"
 msgstr "Maelezo ya mawasiliano"
 
+#: templates/store/base.html:178
 msgid "All rights reserved."
 msgstr "Haki zote zimehifadhiwa."
 
+#: templates/store/base.html:181
 msgid "Built for everyday shopping."
 msgstr "Imeundwa kwa ununuzi wa kila siku."
+
+#: templates/store/cart.html:4
+msgid "Checkout"
+msgstr "Malipo"
+
+#: templates/store/cart.html:11
+msgid "SAFE & SECURE CHECKOUT"
+msgstr "MALIPO SALAMA NA YA KUAMINIKA"
+
+#: templates/store/cart.html:12
+msgid "Complete your order"
+msgstr "Kamilisha agizo lako"
+
+#: templates/store/cart.html:13
+msgid "Delivery available to all 47 counties in Kenya."
+msgstr "Uwasilishaji unapatikana katika kaunti zote 47 za Kenya."
+
+#: templates/store/cart.html:16 templates/store/cart.html:168
+#: templates/store/help.html:66
+msgid "Continue shopping"
+msgstr "Endelea kununua"
+
+#: templates/store/cart.html:29
+msgid "Who should we contact about your delivery?"
+msgstr "Tuwasiliane na nani kuhusu uwasilishaji wako?"
+
+#: templates/store/cart.html:49
+msgid "We’ll send the M-Pesa payment prompt to this number."
+msgstr "Tutatumia ombi la malipo ya M-Pesa kwenye nambari hii."
+
+#: templates/store/cart.html:60
+msgid "Choose a county to see your delivery fee."
+msgstr "Chagua kaunti ili kuona ada ya uwasilishaji."
+
+#: templates/store/cart.html:79
+msgid "Include the town, estate or street, and a nearby landmark."
+msgstr "Jumuisha mji, eneo au mtaa pamoja na alama ya karibu."
+
+#: templates/store/cart.html:85
+msgid ""
+"Estimated flat delivery fees vary by distance from Eldoret and are charged "
+"once per order."
+msgstr ""
+"Ada zisizobadilika za uwasilishaji hutegemea umbali kutoka Eldoret na "
+"hutozwa mara moja kwa kila agizo."
+
+#: templates/store/cart.html:93 templates/store/cart.html:138
+msgid "Choose county"
+msgstr "Chagua kaunti"
+
+#: templates/store/cart.html:94
+msgid "Saving quantities…"
+msgstr "Inahifadhi idadi…"
+
+#: templates/store/cart.html:95
+msgid "Quantities saved."
+msgstr "Idadi imehifadhiwa."
+
+#: templates/store/cart.html:96
+msgid "Unable to update quantities."
+msgstr "Imeshindikana kusasisha idadi."
+
+#: templates/store/cart.html:97
+msgid "Could not save quantities. Please try again."
+msgstr "Haikuweza kuhifadhi idadi. Tafadhali jaribu tena."
+
+#: templates/store/cart.html:98
+#, python-format
+msgid "Choose a quantity between %(minimum)s and %(maximum)s."
+msgstr "Chagua idadi kati ya %(minimum)s na %(maximum)s."
+
+#: templates/store/cart.html:100
+msgid "Your order"
+msgstr "Agizo lako"
+
+#: templates/store/cart.html:101
+msgid "item(s)"
+msgstr "bidhaa"
+
+#: templates/store/cart.html:115
+msgid "Qty"
+msgstr "Idadi"
+
+#: templates/store/cart.html:133
+msgid "Subtotal"
+msgstr "Jumla ndogo"
+
+#: templates/store/cart.html:137
+msgid "Delivery"
+msgstr "Uwasilishaji"
+
+#: templates/store/cart.html:146
+msgid "Quantities save automatically."
+msgstr "Idadi huhifadhiwa kiotomatiki."
+
+#: templates/store/cart.html:153
+msgid "Place order with M-Pesa"
+msgstr "Agiza na ulipe kwa M-Pesa"
+
+#: templates/store/cart.html:156
+msgid "Secure payment via M-Pesa"
+msgstr "Malipo salama kupitia M-Pesa"
+
+#: templates/store/cart.html:166
+msgid "Find something you love and it will be waiting here."
+msgstr "Tafuta unachokipenda, nacho kitakusubiri hapa."
+
+#: templates/store/help.html:4 templates/store/help.html:10
+msgid "Help Centre"
+msgstr "Kituo cha msaada"
+
+#: templates/store/help.html:9
+msgid "HOW CAN WE HELP?"
+msgstr "TUNAWEZA KUKUSAIDIAJE?"
+
+#: templates/store/help.html:11
+msgid "Answers to the questions customers ask most often."
+msgstr "Majibu ya maswali yanayoulizwa mara nyingi na wateja."
+
+#: templates/store/help.html:20
+msgid "How do I place an order?"
+msgstr "Ninawezaje kuagiza?"
+
+#: templates/store/help.html:24
+msgid ""
+"Choose a product, add it to your cart, confirm your delivery details, then "
+"complete the M-Pesa prompt on your phone."
+msgstr ""
+"Chagua bidhaa, iongeze kwenye kikapu, thibitisha maelezo ya uwasilishaji, "
+"kisha ukamilishe ombi la M-Pesa kwenye simu yako."
+
+#: templates/store/help.html:30
+msgid "How are delivery fees calculated?"
+msgstr "Ada ya uwasilishaji huhesabiwaje?"
+
+#: templates/store/help.html:34
+msgid ""
+"Choose your county during checkout to see the delivery fee. It is charged "
+"once for the full order."
+msgstr ""
+"Chagua kaunti yako wakati wa kulipa ili kuona ada ya uwasilishaji. Ada "
+"hutozwa mara moja kwa agizo lote."
+
+#: templates/store/help.html:40
+msgid "How do M-Pesa payments work?"
+msgstr "Malipo ya M-Pesa hufanyaje kazi?"
+
+#: templates/store/help.html:44
+msgid ""
+"After you place your order, we send an M-Pesa prompt to the phone number you "
+"provided. Enter your PIN to complete payment."
+msgstr ""
+"Baada ya kuagiza, tutatuma ombi la M-Pesa kwa nambari ya simu uliyotoa. Weka "
+"PIN yako ili kukamilisha malipo."
+
+#: templates/store/help.html:50
+msgid "Can I change quantities in my cart?"
+msgstr "Je, ninaweza kubadilisha idadi ya bidhaa kwenye kikapu changu?"
+
+#: templates/store/help.html:54
+msgid ""
+"Yes. Change the quantity in your cart and it will save automatically before "
+"checkout."
+msgstr ""
+"Ndiyo. Badilisha idadi ya bidhaa kwenye kikapu chako, na itahifadhiwa "
+"kiotomatiki kabla ya kulipa."
+
+#: templates/store/help.html:62
+msgid "STILL NEED HELP?"
+msgstr "BADO UNAHITAJI MSAADA?"
+
+#: templates/store/help.html:63
+msgid "Contact customer care"
+msgstr "Wasiliana na huduma kwa wateja"
+
+#: templates/store/includes/account_menu.html:5
+msgid "Account"
+msgstr "Akaunti"
+
+#: templates/store/includes/account_menu.html:19 templates/store/login.html:4
+#: templates/store/login.html:7 templates/store/login.html:19
+#: templates/store/register.html:20
+msgid "Login"
+msgstr "Ingia"
+
+#: templates/store/includes/account_menu.html:20 templates/store/login.html:21
+#: templates/store/register.html:4 templates/store/register.html:7
+#: templates/store/register.html:18
+msgid "Create Account"
+msgstr "Fungua Akaunti"
+
+#: templates/store/index.html:176 templates/store/shop.html:178
+#: templates/store/single.html:179
+msgid "Single Page"
+msgstr "Ukurasa wa bidhaa"
+
+#: templates/store/index.html:178 templates/store/shop.html:181
+#: templates/store/single.html:182 templates/store/single.html:243
+msgid "Pages"
+msgstr "Kurasa"
+
+#: templates/store/index.html:181 templates/store/shop.html:184
+#: templates/store/single.html:185
+msgid "Cart Page"
+msgstr "Kikapu"
+
+#: templates/store/index.html:233
+msgid "Featured products"
+msgstr "Bidhaa zilizoangaziwa"
+
+#: templates/store/index.html:257
+msgid "Discover this product."
+msgstr "Gundua bidhaa hii."
+
+#: templates/store/index.html:261 templates/store/product_detail.html:33
+#: templates/store/single.html:699
+msgid "In stock"
+msgstr "Ipo stoo"
+
+#: templates/store/index.html:262
+msgid "Delivery calculated at checkout"
+msgstr "Ada ya uwasilishaji itahesabiwa wakati wa kulipa"
+
+#: templates/store/index.html:270 templates/store/product_detail.html:43
+#: templates/store/single.html:707
+msgid "Add to cart"
+msgstr "Ongeza kwenye kikapu"
+
+#: templates/store/index.html:278 templates/store/index.html:279
+#: templates/store/index.html:1365 templates/store/product_detail.html:52
+#: templates/store/shop.html:1384
+msgid "Remove from wishlist"
+msgstr "Ondoa kwenye orodha ya matamanio"
+
+#: templates/store/index.html:278 templates/store/index.html:279
+#: templates/store/index.html:1365 templates/store/product_detail.html:52
+#: templates/store/shop.html:1384
+msgid "Add to wishlist"
+msgstr "Ongeza kwenye orodha ya matamanio"
+
+#: templates/store/index.html:288 templates/store/shop.html:1413
+#: templates/store/single.html:713
+msgid "No products available yet."
+msgstr "Bado hakuna bidhaa zinazopatikana."
+
+#: templates/store/index.html:303
+msgid "Pay with M-Pesa"
+msgstr "Lipa kwa M-Pesa"
+
+#: templates/store/index.html:304
+msgid "Secure mobile checkout"
+msgstr "Malipo salama kwa simu"
+
+#: templates/store/index.html:314
+msgid "Delivery across Kenya"
+msgstr "Uwasilishaji kote Kenya"
+
+#: templates/store/index.html:315
+msgid "Delivery fees shown at checkout"
+msgstr "Ada ya uwasilishaji itaonyeshwa wakati wa malipo"
+
+#: templates/store/index.html:325
+msgid "English and Kiswahili"
+msgstr "Kiingereza na Kiswahili"
+
+#: templates/store/index.html:326
+msgid "Shop in the language you prefer"
+msgstr "Nunua kwa lugha unayoipendelea"
+
+#: templates/store/index.html:372
+msgid "Quick Services"
+msgstr "Huduma za Haraka"
+
+#: templates/store/index.html:373
+msgid ""
+"Add service add-ons to your order for a faster setup, easier delivery, and "
+"reliable after-sales support."
+msgstr ""
+"Ongeza huduma za nyongeza kwenye agizo lako kwa uwasilishaji rahisi, huduma "
+"ya haraka na usaidizi wa kuaminika baada ya mauzo."
+
+#: templates/store/index.html:378
+msgid "Same-Day Local Delivery"
+msgstr "Uwasilishaji wa Siku Hiyohiyo wa Eneo la Karibu"
+
+#: templates/store/index.html:379 templates/store/index.html:390
+#: templates/store/index.html:401 templates/store/index.html:412
+msgid "Includes:"
+msgstr "Inajumuisha:"
+
+#: templates/store/index.html:379
+msgid "Priority dispatch within Nairobi and nearby areas."
+msgstr "Kutumwa kwa kipaumbele ndani ya Nairobi na maeneo ya karibu."
+
+#: templates/store/index.html:380 templates/store/index.html:391
+msgid "Turnaround:"
+msgstr "Muda wa kukamilisha:"
+
+#: templates/store/index.html:380
+msgid "2 to 6 hours after payment"
+msgstr "Saa 2 hadi 6 baada ya malipo"
+
+#: templates/store/index.html:382 templates/store/index.html:393
+#: templates/store/index.html:404 templates/store/index.html:415
+msgid "From:"
+msgstr "Kuanzia:"
+
+#: templates/store/index.html:383
+msgid "Delivery details"
+msgstr "Maelezo ya uwasilishaji"
+
+#: templates/store/index.html:389
+msgid "Install-at-Home"
+msgstr "Usakinishaji Nyumbani"
+
+#: templates/store/index.html:390
+msgid "Home installation for TVs, routers, and smart devices."
+msgstr "Usakinishaji wa nyumbani wa TV, router na vifaa mahiri."
+
+#: templates/store/index.html:391
+msgid "Scheduled same day or next day"
+msgstr "Umepangwa siku hiyohiyo au siku inayofuata"
+
+#: templates/store/index.html:394
+msgid "Book install"
+msgstr "Weka miadi ya usakinishaji"
+
+#: templates/store/index.html:400
+msgid "Extended Warranty Add-On"
+msgstr "Nyongeza ya Dhamana Iliyoongezwa"
+
+#: templates/store/index.html:401
+msgid "Extra protection for accidental faults after standard warranty."
+msgstr ""
+"Ulinzi wa ziada kwa hitilafu za bahati mbaya baada ya dhamana ya kawaida."
+
+#: templates/store/index.html:402
+msgid "Coverage:"
+msgstr "Ulinzi:"
+
+#: templates/store/index.html:402
+msgid "6, 12, or 24 months"
+msgstr "Miezi 6, 12 au 24"
+
+#: templates/store/index.html:405
+msgid "View warranty"
+msgstr "Tazama dhamana"
+
+#: templates/store/index.html:411
+msgid "Remote Tech Support"
+msgstr "Usaidizi wa Kiufundi wa Mbali"
+
+#: templates/store/index.html:412
+msgid "Live troubleshooting for software, updates, and connectivity issues."
+msgstr ""
+"Utatuzi wa matatizo wa moja kwa moja kwa programu, masasisho na changamoto "
+"za muunganisho."
+
+#: templates/store/index.html:413
+msgid "Session length:"
+msgstr "Muda wa kikao:"
+
+#: templates/store/index.html:413
+msgid "30 or 60 minutes"
+msgstr "Dakika 30 au 60"
+
+#: templates/store/index.html:416
+msgid "Request support"
+msgstr "Omba usaidizi"
+
+#: templates/store/index.html:422
+msgid "Need a custom package? Contact support"
+msgstr "Unahitaji kifurushi maalum? Wasiliana na usaidizi"
+
+#: templates/store/index.html:434
+msgid "Popular picks"
+msgstr "Bidhaa maarufu"
+
+#: templates/store/index.html:441
+msgid "Featured"
+msgstr "Zilizoangaziwa"
+
+#: templates/store/index.html:1381
+msgid "View product details"
+msgstr "Tazama maelezo ya bidhaa"
+
+#: templates/store/index.html:1396 templates/store/shop.html:1407
+msgid "Add"
+msgstr "Ongeza"
+
+#: templates/store/login.html:21
+msgid "New to Sokohewani?"
+msgstr "Je, wewe ni mteja mpya wa Sokohewani?"
+
+#: templates/store/product_detail.html:7
+msgid "Breadcrumb"
+msgstr "Njia ya urambazaji"
+
+#: templates/store/product_detail.html:31 templates/store/single.html:697
+msgid "No description available."
+msgstr "Maelezo hayapatikani."
+
+#: templates/store/product_detail.html:39 templates/store/single.html:703
+msgid "Quantity"
+msgstr "Idadi"
+
+#: templates/store/product_detail.html:57
+msgid "Out of stock"
+msgstr "Haipo dukani"
+
+#: templates/store/register.html:20
+msgid "Already registered?"
+msgstr "Tayari umesajiliwa?"
+
+#: templates/store/single.html:4 templates/store/single.html:240
+#: templates/store/single.html:244
+msgid "Single Product"
+msgstr "Bidhaa Moja"
 
 msgid "Electronics"
 msgstr "Elektroniki"

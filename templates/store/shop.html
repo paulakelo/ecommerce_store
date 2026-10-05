@@ -1,6 +1,7 @@
 {% extends "store/base.html" %}
 {% load static i18n %}
 {% get_current_language as current_language %}
+{% block title %}{% if category %}{{ category.localized_name }}{% else %}{% translate "Shop" %}{% endif %} | Sokohewani{% endblock %}
 <!DOCTYPE html>
 <html lang="{{ current_language }}">
 

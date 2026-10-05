@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.test import RequestFactory
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from django.utils.translation import override as translation_override
 
 from .admin import CustomerMessageAdmin, PromotionCampaignAdmin
 from .forms import CheckoutForm, CustomerMessageForm
@@ -75,6 +76,26 @@ class StorefrontWorkflowTests(TestCase):
 			"delivery_details",
 		):
 			self.assertRegex(html, rf'name="{field_name}"[^>]*required')
+
+	def test_checkout_live_status_messages_follow_selected_language(self):
+		self.client.post(
+			reverse("set_language"), {"language": "sw", "next": reverse("cart")}
+		)
+		self.set_cart()
+
+		response = self.client.get(reverse("cart"))
+
+		self.assertContains(response, 'data-message-choose-county="Chagua kaunti"')
+		self.assertContains(response, 'data-message-saving="Inahifadhi idadi…"')
+		self.assertContains(
+			response,
+			'data-message-quantities-saved="Idadi imehifadhiwa."',
+		)
+		self.assertContains(
+			response,
+			'data-message-quantity-range="Chagua idadi kati ya __minimum__ na __maximum__."',
+		)
+		self.assertContains(response, "Nairobi Kaunti · KES 650")
 
 	def test_checkout_prefills_saved_account_details_and_shipping_address(self):
 		user = get_user_model().objects.create_user(
@@ -619,9 +640,25 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertContains(response, 'placeholder="Tafuta kompyuta, simu..."')
 		self.assertContains(response, 'aria-current="true"')
 		home_response = self.client.get(reverse("home"))
+		self.assertContains(
+			home_response,
+			"<title>Sokohewani | Elektroniki Eldoret</title>",
+		)
 		self.assertContains(home_response, "Huduma za Haraka")
 		self.assertContains(home_response, "Maelezo ya uwasilishaji")
 		self.assertContains(home_response, "Kituo cha msaada")
+		self.assertContains(home_response, "Malipo salama kwa simu")
+		self.assertContains(home_response, "Uwasilishaji kote Kenya")
+		self.assertContains(home_response, "Nunua kwa lugha unayoipendelea")
+		help_response = self.client.get(reverse("help"))
+		self.assertContains(
+			help_response,
+			"Majibu ya maswali yanayoulizwa mara nyingi na wateja.",
+		)
+		self.assertContains(help_response, "Ninawezaje kuagiza?")
+		single_response = self.client.get(reverse("single"))
+		self.assertContains(single_response, "<title>Bidhaa Moja | Sokohewani</title>")
+		self.assertContains(single_response, "Kurasa")
 		self.assertContains(
 			home_response,
 			'class="text-primary">Elektroniki</a>',
@@ -708,6 +745,13 @@ class CheckoutFormTests(TestCase):
 		self.assertEqual(shipping_cost_for_county("Nakuru"), Decimal("450.00"))
 		self.assertEqual(shipping_cost_for_county("Nairobi"), Decimal("650.00"))
 		self.assertEqual(shipping_cost_for_county("Mombasa"), Decimal("900.00"))
+
+	def test_county_names_remain_unchanged_while_county_label_is_translated(self):
+		with translation_override("sw"):
+			form = CheckoutForm()
+			county_choices = dict(form.fields["county"].choices)
+			self.assertEqual(county_choices["Nairobi"], "Nairobi Kaunti")
+
 
 
 @override_settings(ALLOWED_HOSTS=["localhost"])

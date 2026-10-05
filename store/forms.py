@@ -3,6 +3,7 @@ import re
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy as _
 
 from .shipping import COUNTY_SHIPPING_RATES
@@ -75,7 +76,10 @@ class AccountDetailsForm(forms.ModelForm):
             label=_("County"),
             required=False,
             choices=[("", _("Select your county"))]
-            + [(county, _(f"{county} County")) for county in COUNTY_SHIPPING_RATES],
+            + [
+                (county, format_lazy("{} {}", county, _("County")))
+                for county in COUNTY_SHIPPING_RATES
+            ],
             widget=forms.Select(attrs={"class": "form-select"}),
         )
         self.fields["shipping_details"] = forms.CharField(
@@ -125,7 +129,10 @@ class CheckoutForm(forms.Form):
     county = forms.ChoiceField(
         label=_("County"),
         choices=[("", _("Select your county"))]
-        + [(county, _(f"{county} County")) for county in COUNTY_SHIPPING_RATES],
+        + [
+            (county, format_lazy("{} {}", county, _("County")))
+            for county in COUNTY_SHIPPING_RATES
+        ],
         widget=forms.Select(attrs={"class": "form-select"}),
     )
     delivery_details = forms.CharField(

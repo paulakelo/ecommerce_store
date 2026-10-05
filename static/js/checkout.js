@@ -13,15 +13,18 @@
 
     let subtotalCents = Math.round(Number(summary.dataset.subtotal) * 100);
     let saveTimer;
+    const locale = document.documentElement.lang.startsWith("sw") ? "sw-KE" : "en-KE";
     const formatKes = (amount) =>
-        `KES ${amount.toLocaleString("en-KE", {
+        `KES ${amount.toLocaleString(locale, {
             maximumFractionDigits: 0,
         })}`;
 
     const updateTotals = () => {
         const option = countySelect.selectedOptions[0];
         const shipping = Number(option?.dataset.shipping || 0);
-        shippingValue.textContent = option?.value ? formatKes(shipping) : "Choose county";
+        shippingValue.textContent = option?.value
+            ? formatKes(shipping)
+            : summary.dataset.messageChooseCounty;
         totalValue.textContent = formatKes((subtotalCents + shipping * 100) / 100);
     };
 
@@ -47,7 +50,7 @@
     };
 
     const saveQuantities = async () => {
-        setStatus("Saving quantities…");
+        setStatus(summary.dataset.messageSaving);
         try {
             const response = await fetch(summary.dataset.updateUrl, {
                 method: "POST",
@@ -57,12 +60,12 @@
             const cart = await response.json();
             applyCart(cart);
             if (!response.ok) {
-                setStatus(cart.errors[0] || "Unable to update quantities.", true);
+                setStatus(cart.errors[0] || summary.dataset.messageUnableToUpdate, true);
                 return;
             }
-            setStatus("Quantities saved.");
+            setStatus(summary.dataset.messageQuantitiesSaved);
         } catch (error) {
-            setStatus("Could not save quantities. Please try again.", true);
+            setStatus(summary.dataset.messageCouldNotSave, true);
         }
     };
 
@@ -72,7 +75,10 @@
             const minimum = Number(input.min || 1);
             const maximum = Number(input.max);
             if (!Number.isInteger(value) || value < minimum || value > maximum) {
-                setStatus(`Choose a quantity between ${minimum} and ${maximum}.`, true);
+                const rangeMessage = summary.dataset.messageQuantityRange
+                    .replace("__minimum__", minimum)
+                    .replace("__maximum__", maximum);
+                setStatus(rangeMessage, true);
                 return;
             }
             const row = input.closest("[data-cart-item]");
@@ -84,7 +90,7 @@
             );
             if (subtotalValue) subtotalValue.textContent = formatKes(subtotalCents / 100);
             updateTotals();
-            setStatus("Saving quantities…");
+            setStatus(summary.dataset.messageSaving);
             clearTimeout(saveTimer);
             saveTimer = setTimeout(saveQuantities, 450);
         });
