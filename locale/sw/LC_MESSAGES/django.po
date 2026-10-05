@@ -310,8 +310,8 @@ msgstr "Uwasilishaji wa Siku Hiyohiyo wa Eneo la Karibu"
 msgid "Includes:"
 msgstr "Inajumuisha:"
 
-msgid "Priority dispatch within Eldoret and nearby areas."
-msgstr "Kutumwa kwa kipaumbele ndani ya Eldoret na maeneo ya karibu."
+msgid "Priority dispatch within Nairobi and nearby areas."
+msgstr "Kutumwa kwa kipaumbele ndani ya Nairobi na maeneo ya karibu."
 
 msgid "Turnaround:"
 msgstr "Muda wa kukamilisha:"
@@ -369,3 +369,60 @@ msgstr "Omba usaidizi"
 
 msgid "Need a custom package? Contact support"
 msgstr "Unahitaji kifurushi maalum? Wasiliana na usaidizi"
+
+msgid "Simple, dependable shopping for everyday essentials."
+msgstr "Ununuzi rahisi na wa kuaminika wa mahitaji ya kila siku."
+
+msgid "Customer care"
+msgstr "Huduma kwa wateja"
+
+msgid "Service hours"
+msgstr "Saa za huduma"
+
+msgid "Monday–Friday (excluding public holidays): 9AM–5:30PM"
+msgstr "Jumatatu–Ijumaa (isipokuwa sikukuu za umma): 9AM–5:30PM"
+
+msgid "Saturday: 9AM–12:30PM"
+msgstr "Jumamosi: 9AM–12:30PM"
+
+msgid "Contact support"
+msgstr "Wasiliana na usaidizi"
+
+msgid "Footer customer care links"
+msgstr "Viungo vya huduma kwa wateja vya sehemu ya chini"
+
+msgid "Help centre"
+msgstr "Kituo cha msaada"
+
+msgid "Delivery & payment"
+msgstr "Uwasilishaji na malipo"
+
+msgid "My orders"
+msgstr "Maagizo yangu"
+
+msgid "Footer shop links"
+msgstr "Viungo vya duka vya sehemu ya chini"
+
+msgid "Shop all"
+msgstr "Bidhaa zote"
+
+msgid "Need help?"
+msgstr "Unahitaji msaada?"
+
+msgid "Footer help links"
+msgstr "Viungo vya msaada vya sehemu ya chini"
+
+msgid "Frequently asked questions"
+msgstr "Maswali yanayoulizwa mara kwa mara"
+
+msgid "M-Pesa payments"
+msgstr "Malipo ya M-Pesa"
+
+msgid "Contact details"
+msgstr "Maelezo ya mawasiliano"
+
+msgid "All rights reserved."
+msgstr "Haki zote zimehifadhiwa."
+
+msgid "Built for everyday shopping."
+msgstr "Imeundwa kwa ununuzi wa kila siku."

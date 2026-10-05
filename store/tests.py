@@ -121,10 +121,19 @@ class StorefrontWorkflowTests(TestCase):
 		response = self.client.get(reverse("home"))
 
 		self.assertNotContains(response, "Device Setup")
+		self.assertContains(response, "Priority dispatch within Nairobi and nearby areas.")
 		self.assertContains(response, reverse("help") + "#delivery")
 		self.assertContains(response, reverse("help") + "#contact")
 		self.assertContains(response, reverse("shop"))
 		self.assertNotContains(response, reverse("account") + "#messages")
+
+		help_response = self.client.get(reverse("help"))
+		self.assertEqual(help_response.status_code, 200)
+		self.assertContains(help_response, 'id="delivery"')
+		self.assertContains(help_response, 'id="contact"')
+
+		shop_response = self.client.get(reverse("shop"))
+		self.assertEqual(shop_response.status_code, 200)
 
 	def test_homepage_search_matches_product_name_and_description(self):
 		laptop = Product.objects.create(
@@ -605,6 +614,7 @@ class StorefrontWorkflowTests(TestCase):
 		home_response = self.client.get(reverse("home"))
 		self.assertContains(home_response, "Huduma za Haraka")
 		self.assertContains(home_response, "Maelezo ya uwasilishaji")
+		self.assertContains(home_response, "Kituo cha msaada")
 
 		response = self.client.post(
 			reverse("set_language"), {"language": "en", "next": reverse("home")}
