@@ -1369,7 +1369,7 @@
     {% endcomment %}
     <div class="container-fluid shop py-5">
         <div class="container py-5">
-            <h1 class="mb-4">{% if category %}{{ category.name }}{% else %}{% translate "Shop" %}{% endif %}</h1>
+            <h1 class="mb-4">{% if category %}{{ category.localized_name }}{% else %}{% translate "Shop" %}{% endif %}</h1>
             <div class="row g-4">
                 {% for product in products %}
                 <div class="col-6 col-lg-4 col-xl-3">
@@ -1393,7 +1393,7 @@
                             {% endif %}
                         </a>
                         <div class="product-card-info">
-                            <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.name }}</a>
+                            <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.localized_name }}</a>
                             <a href="{% url 'product_detail' slug=product.slug %}" class="product-name">{{ product.name }}</a>
                             <span class="product-price">KES {{ product.price|floatformat:0 }}</span>
                         </div>

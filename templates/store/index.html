@@ -246,7 +246,7 @@
                         </a>
                     </div>
                     <div class="col-lg-7 carousel-content p-4">
-                        <a href="{% url 'category' slug=product.category.slug %}" class="text-primary">{{ product.category.name }}</a>
+                        <a href="{% url 'category' slug=product.category.slug %}" class="text-primary">{{ product.category.localized_name }}</a>
                         <h2 class="display-5 text-capitalize my-3">
                             <a href="{% url 'product_detail' slug=product.slug %}" class="text-dark">{{ product.name }}</a>
                         </h2>
@@ -401,7 +401,7 @@
                         <p class="store-service-line mb-2"><strong>{% translate "Coverage:" %}</strong> {% translate "6, 12, or 24 months" %}</p>
                         <div class="store-service-footer">
                             <p class="store-service-price mb-0"><strong>{% translate "From:" %}</strong> KES 1,200</p>
-                            <a href="{% url 'shop' %}" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "View warranty" %}</a>
+                            <a href="{% url 'help' %}#contact" class="btn btn-primary btn-sm rounded-pill px-3">{% translate "View warranty" %}</a>
                         </div>
                     </article>
                 </div>
@@ -1379,7 +1379,7 @@
                                             </div>
                                         </div>
                                         <div class="product-card-info">
-                                            <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.name }}</a>
+                                            <a href="{% url 'category' slug=product.category.slug %}" class="product-category">{{ product.category.localized_name }}</a>
                                             <a href="{% url 'product_detail' slug=product.slug %}" class="product-name">{{ product.name }}</a>
                                             <span class="product-price">KES {{ product.price|floatformat:0 }}</span>
                                         </div>

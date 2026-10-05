@@ -426,3 +426,24 @@ msgstr "Haki zote zimehifadhiwa."
 
 msgid "Built for everyday shopping."
 msgstr "Imeundwa kwa ununuzi wa kila siku."
+
+msgid "Electronics"
+msgstr "Elektroniki"
+
+msgid "Computing & Tech"
+msgstr "Kompyuta na Teknolojia"
+
+msgid "Mobile Phones & Audio"
+msgstr "Simu za Mkononi na Sauti"
+
+msgid "Home & Kitchen Appliances"
+msgstr "Vifaa vya Nyumbani na Jikoni"
+
+msgid "Men's Fashion"
+msgstr "Mitindo ya Wanaume"
+
+msgid "Beauty & Grooming"
+msgstr "Urembo na Utunzaji"
+
+msgid "Women's Fashion"
+msgstr "Mitindo ya Wanawake"

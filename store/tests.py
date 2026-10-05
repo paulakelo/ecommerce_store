@@ -124,7 +124,14 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertContains(response, "Priority dispatch within Nairobi and nearby areas.")
 		self.assertContains(response, reverse("help") + "#delivery")
 		self.assertContains(response, reverse("help") + "#contact")
-		self.assertContains(response, reverse("shop"))
+		self.assertContains(
+			response,
+			f'href="{reverse("help")}#contact" class="btn btn-primary btn-sm rounded-pill px-3">View warranty</a>',
+		)
+		self.assertNotContains(
+			response,
+			f'href="{reverse("shop")}" class="btn btn-primary btn-sm rounded-pill px-3">View warranty</a>',
+		)
 		self.assertNotContains(response, reverse("account") + "#messages")
 
 		help_response = self.client.get(reverse("help"))
@@ -615,6 +622,25 @@ class StorefrontWorkflowTests(TestCase):
 		self.assertContains(home_response, "Huduma za Haraka")
 		self.assertContains(home_response, "Maelezo ya uwasilishaji")
 		self.assertContains(home_response, "Kituo cha msaada")
+		self.assertContains(
+			home_response,
+			'class="text-primary">Elektroniki</a>',
+		)
+		self.assertContains(
+			home_response,
+			'class="product-category">Elektroniki</a>',
+		)
+
+		shop_response = self.client.get(reverse("shop"))
+		self.assertContains(
+			shop_response,
+			'class="product-category">Elektroniki</a>',
+		)
+
+		category_response = self.client.get(
+			reverse("category", kwargs={"slug": self.category.slug})
+		)
+		self.assertContains(category_response, '<h1 class="mb-4">Elektroniki</h1>')
 
 		response = self.client.post(
 			reverse("set_language"), {"language": "en", "next": reverse("home")}

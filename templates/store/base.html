@@ -91,7 +91,7 @@
                                 {% for category in store_categories %}
                                 <li>
                                     <div class="categories-bars-item">
-                                        <a href="{% url 'category' slug=category.slug %}">{{ category.name }}</a>
+                                        <a href="{% url 'category' slug=category.slug %}">{{ category.localized_name }}</a>
                                     </div>
                                 </li>
                                 {% empty %}
@@ -105,7 +105,7 @@
             <nav class="col d-none d-lg-flex category-nav align-items-center justify-content-center gap-2 py-2"
                 aria-label="{% translate 'Shop by category' %}">
                 {% for category in store_categories %}
-                <a class="category-nav-link text-dark text-nowrap" href="{% url 'category' slug=category.slug %}">{{ category.name }}</a>
+                <a class="category-nav-link text-dark text-nowrap" href="{% url 'category' slug=category.slug %}">{{ category.localized_name }}</a>
                 {% endfor %}
             </nav>
             <div class="col-auto">

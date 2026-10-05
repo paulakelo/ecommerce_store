@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext as _
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -10,6 +11,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def localized_name(self):
+        return _(self.name)
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
